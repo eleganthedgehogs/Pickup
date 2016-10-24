@@ -1,0 +1,28 @@
+{
+  "name": "eleganthedgehogs",
+  "version": "1.0.0",
+  "description": "Server dependencies",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleganthedgehogs/eleganthedgehogs.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "eleganthedgehogs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eleganthedgehogs/eleganthedgehogs/issues"
+  },
+  "homepage": "https://github.com/eleganthedgehogs/eleganthedgehogs#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "firebase": "^3.5.1",
+    "morgan": "^1.7.0"
+  }
+}
