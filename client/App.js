@@ -9,7 +9,7 @@ import {
   Switch,
 } from 'react-native';
 import { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
-import DraggableMarkers from './examples/DraggableMarkers';
+import HomeMap from './components/maps/Map';
 import LogIn from './components/login/login';
 import Home from './components/home/home';
 
@@ -36,7 +36,7 @@ class App extends React.Component {
       )      
     } else if (this.state.view === 'home') {
       return (
-        <DraggableMarkers redirect={this.redirect.bind(this)}/>
+        <HomeMap redirect={this.redirect.bind(this)}/>
       )
     }
   }
