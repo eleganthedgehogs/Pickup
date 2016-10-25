@@ -1,27 +1,23 @@
 {
-  "name": "client",
+  "name": "AirMapsExplorer",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "start": "react-native start",
+    "watch": "node ./scripts/watch-and-copy-src.js",
+    "packager": "sh ./node_modules/react-native/packager/packager.sh --root ./node_modules/react-native-maps",
+    "dev": "concurrently 'npm run watch' 'npm run packager'"
   },
   "dependencies": {
-    "axios": "^0.15.2",
-    "native-base": "^0.5.11",
-    "react": "15.3.2",
-    "react-native": "0.35.0",
-    "react-native-maps": "^0.10.2",
-    "react-native-vector-icons": "^2.1.0"
-  },
-  "jest": {
-    "preset": "jest-react-native"
+    "react": "^15.3.1",
+    "react-native": "^0.35.0",
+    "react-native-maps": "../"
   },
   "devDependencies": {
-    "babel-jest": "16.0.0",
-    "babel-preset-react-native": "1.9.0",
-    "jest": "16.0.2",
-    "jest-react-native": "16.0.0",
-    "react-test-renderer": "15.3.2"
+    "concurrently": "^2.2.0",
+    "fs-extra": "^0.30.0",
+    "minimatch": "^3.0.2",
+    "node-watch": "^0.4.0",
+    "rimraf": "^2.5.4"
   }
 }
