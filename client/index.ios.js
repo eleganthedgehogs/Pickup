@@ -6,7 +6,8 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import LogIn from './components/login/login'
+import LogIn from './components/login/login';
+import Home from './components/home/home';
 
 export default class client extends Component {
 	constructor(props) {
@@ -21,9 +22,15 @@ export default class client extends Component {
   } 
 
   render() {
-    return (
-      <LogIn redirect={this.redirect.bind(this)}/>
-    );
+    if (this.state.view === 'login') {
+      return (
+        <LogIn redirect={this.redirect.bind(this)}/>
+      )      
+    } else if (this.state.view === 'home') {
+      return (
+        <Home redirect={this.redirect.bind(this)}/>
+      )
+    }
   }
 }
 
