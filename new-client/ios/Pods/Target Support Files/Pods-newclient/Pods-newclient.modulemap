@@ -1,6 +1,0 @@
-framework module Pods_newclient {
-  umbrella header "Pods-newclient-umbrella.h"
-
-  export *
-  module * { export * }
-}
