@@ -1,0 +1,3 @@
+rootProject.name = 'newclient'
+
+include ':app'
