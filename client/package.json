@@ -9,8 +9,11 @@
     "dev": "concurrently 'npm run watch' 'npm run packager'"
   },
   "dependencies": {
+    "axios": "^0.15.2",
+    "native-base": "^0.5.11",
     "react": "^15.3.1",
     "react-native": "^0.35.0",
+    "react-native-cli": "^1.0.0",
     "react-native-maps": "../"
   },
   "devDependencies": {
