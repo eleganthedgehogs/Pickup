@@ -2,7 +2,7 @@
 
 > Pithy project description
 
-## Team
+### Team
 
   - __Product Owner__: Carlos Portillo
   - __Scrum Master__: Joe Lee
