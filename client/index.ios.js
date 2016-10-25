@@ -9,9 +9,20 @@ import { AppRegistry } from 'react-native';
 import LogIn from './components/login/login'
 
 export default class client extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {view: 'login'};
+	}
+
+  redirect(route) {
+  	console.log("setting state here");
+  	this.setState({view: route});
+  	console.log(this.state.view);
+  } 
+
   render() {
     return (
-      <LogIn />
+      <LogIn redirect={this.redirect.bind(this)}/>
     );
   }
 }
