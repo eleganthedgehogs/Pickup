@@ -29,7 +29,7 @@ class Home extends Component {
              latitude: 37.78825,
              longitude: -122.4324,
              latitudeDelta: 0.0922,
-             longitudeDelta: 0.0421,
+             longitudeDelta: 0.0420,
            }}
          />
         <Content>
