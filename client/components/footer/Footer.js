@@ -18,10 +18,10 @@ class FooterClass extends React.Component {
   render() {
     return ( 
       <Footer>
-       <Button style={{backgroundColor: 'rgba(0,0,0,0)'}}>
-        <Image source={require('./ruckerpark.jpg')} style={{width: 60, height: 50, alignItems: 'center'}} />
+       <Button style={{backgroundColor: 'rgba(0,0,0,0)', shadowColor: 'rgba(0,0,0,0)'}}>
+        <Image source={require('../images/ruckerpark.jpg')} style={{width: 60, height: 50, alignItems: 'center'}} />
        </Button>
-        <FooterTab><Button>Tab2</Button></FooterTab>
+        <FooterTab><Button>{this.props.game.court}</Button></FooterTab>
     </Footer>
     )
   }
