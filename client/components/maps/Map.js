@@ -37,7 +37,14 @@ class HomeMap extends React.Component {
         latitude: LATITUDE - SPACE,
         longitude: LONGITUDE - SPACE,
       },
-      games: []
+      games: [],
+      selectedGame: {
+        players: [1,2],
+        time: 120,
+        court: 'Dupa Court',
+        lat: LATITUDE - SPACE - 0.01,
+        long: LONGITUDE + SPACE + 0.01
+    }
     };
   }
 
@@ -63,6 +70,10 @@ class HomeMap extends React.Component {
     })
   }
 
+  chooseGame(game) {
+
+  }
+
   render() {
     var self = this;
     return (
@@ -85,7 +96,9 @@ class HomeMap extends React.Component {
             </View>
            </View>
             {this.state.games.map((game, i) => (
-              <MapView.Marker coordinate={{
+              <MapView.Marker onPress={(event) => {
+                  self.setState({selectedGame: game});
+              }} coordinate={{
                 latitude: game.lat,
                 longitude: game.long
               }} key= {i}>
@@ -93,7 +106,7 @@ class HomeMap extends React.Component {
               </MapView.Marker>
           ))}
           </MapView>
-         <FooterClass />
+         <FooterClass game={self.state.selectedGame}/>
         </View>
       </Container>
     );
