@@ -4,7 +4,7 @@ var CourtSchema = new mongoose.Schema({
   name: { type: String, unique: true },
   latitude: Number,
   longitude: Number,
-  image: String
+  imageUrl: String
 });
 
 

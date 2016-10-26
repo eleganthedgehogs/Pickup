@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
 var GameSchema = new mongoose.Schema({
-  location: { type: String, required: true},
-  court: Number,
-  time: {type: String, required: true },
-  players: [{ type: String }]
+  type: String,
+  court: { type: String, unique: true },
+  time: { type: String, required: true },
+  playerIds: [{ type: String }]
 });
 
 GameSchema.methods.addPlayer = function(player) {
