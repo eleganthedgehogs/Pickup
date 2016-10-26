@@ -1,21 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Text,
-  Switch,
-} from 'react-native';
-import { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import HomeMap from './components/maps/Map';
 import LogIn from './components/login/login';
-import Home from './components/home/home';
-
-const IOS = Platform.OS === 'ios';
-const ANDROID = Platform.OS === 'android';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -24,9 +9,7 @@ class App extends React.Component {
   }
 
   redirect(route) {
-    console.log("setting state here");
-    this.setState({view: route});
-    console.log(this.state.view);
+    this.setState({view: route});  
   } 
 
   render() {
@@ -41,6 +24,5 @@ class App extends React.Component {
     }
   }
 }
-
 
 module.exports = App;
