@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  SegmentedControlIOS,
-  Image
-} from 'react-native';
+import { Image } from 'react-native';
+import { Footer, FooterTab, Button } from 'native-base';
+import styles from './styles';
 
-import MapView from'react-native-maps';
-import { Container, Header, Title, Text, Content, Footer, FooterTab, Button, Icon} from 'native-base';
-
-class FooterClass extends React.Component {
+class Foot extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -19,12 +12,15 @@ class FooterClass extends React.Component {
     if (this.props.game) {
       return ( 
         <Footer>
-          <Button style={{backgroundColor: 'rgba(0,0,0,0)', shadowColor: 'rgba(0,0,0,0)'}}>
-           <Image source={require('../images/ruckerpark.jpg')} style={{width: 60, height: 50, alignItems: 'center'}} />
+          <Button style={styles.button}>
+            <Image source={require('../images/ruckerpark.jpg')} style={styles.image} />
           </Button>
-           <FooterTab><Button>{this.props.game.court}</Button></FooterTab>
+
+          <FooterTab>
+            <Button>{this.props.game.court}</Button>
+          </FooterTab>
         </Footer>
-        )
+      )
     } else {
     return (  
        <Footer>
@@ -35,4 +31,4 @@ class FooterClass extends React.Component {
   }
 }
 
-module.exports = FooterClass;
+module.exports = Foot;

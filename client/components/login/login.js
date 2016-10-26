@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, InputGroup, Input, Button, View } from 'native-base';
 import { Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import Axios from 'axios';
 
@@ -22,18 +21,13 @@ class LogIn extends Component {
 	    email: this.state.email,
 	    password: this.state.password
 	  })
-	  .then(function (response) {
-	    console.log('redirecting to home page');
-	  })
-	  .catch(function (error) {
-	    self.redirect('home');
-	    console.log(error);
-	  });
-	}
+	  .then( response => console.log('redirecting to home page') )
+	  .catch( error => self.redirect('home') ); // move this line to .then success callback when server is running
+  } 
 
 	redirect(route) {
-		this.props.redirect(route);
-	}
+    this.props.redirect(route)
+  }
 
 	render() {
     return (
