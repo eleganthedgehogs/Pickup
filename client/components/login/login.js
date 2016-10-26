@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import Axios from 'axios';
 
-const background = require('../../images/shadow.png');
+const background = require('../images/shadow.png');
 
 class LogIn extends Component {
 	constructor(props) {

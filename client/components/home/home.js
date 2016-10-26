@@ -6,8 +6,6 @@ import styles from './styles';
 import Axios from 'axios';
 import MapView from 'react-native-maps';
 
-const background = require('../../images/shadow.png');
-
 class Home extends Component {
 	constructor(props) {
 		super(props);
