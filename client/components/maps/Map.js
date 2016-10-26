@@ -31,7 +31,7 @@ class HomeMap extends Component {
   componentWillMount() {
     var self = this;
     // use AXIOS to grab data from backend
-    axios.get('http://localhost:8000/api/main')
+    helper.getMainData()
     .then(function(response) {
       self.setState({games: response.data.data});
       console.log(self.state.games);
@@ -39,25 +39,6 @@ class HomeMap extends Component {
     .catch(function(error) {
       console.log('this is the error');
     });
-    // this.state.games.push({
-    //   players: [1,2,3,4,5],
-    //   time: 90,
-    //   court: 'Baller Court',
-    //   lat: latitude + SPACE,
-    //   long: longitude - SPACE
-    // }, {
-    //   players: [1,2,3,4,5,6,7,8],
-    //   time: 30,
-    //   court: 'Supa Court',
-    //   lat: latitude - SPACE,
-    //   long: longitude + SPACE
-    // }, {
-    //   players: [1,2],
-    //   time: 120,
-    //   court: 'Dupa Court',
-    //   lat: latitude - SPACE - 0.01,
-    //   long: longitude + SPACE + 0.01
-    // })
   }
 
   render() {
