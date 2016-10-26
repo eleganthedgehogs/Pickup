@@ -17,6 +17,7 @@ var createUser = Promise.promisify(User.create, User);
 var findAllUsers = Promise.promisify(User.find, User);
 
 var Game = require('./models/gameModel.js');
+var games = require('./config/gameData.js');
 var findGame = Promise.promisify(Game.findOne, Game);
 var createGame = Promise.promisify(Game.create, Game);
 var findAllGames = Promise.promisify(Game.find, Game);
@@ -33,6 +34,15 @@ courtData.forEach(function(court) {
   })
   .catch(function(e) {
     console.log('Court already exists');
+  });
+});
+
+games.forEach(function(game) {
+  createGame(game)
+  .then(function(court) {
+  })
+  .catch(function(e) {
+    console.log('Game already exists');
   });
 });
 
@@ -111,6 +121,13 @@ app.get('/api/games', function(req, res) {
   });
 });
 
+app.get('/api/courts', function(req, res) {
+  findAllCourts({})
+  .then(function(courts) {
+    res.status(200).send({courts: courts});
+  });
+});
+
 //post a game to the database
 app.post('/api/games', function(req, res) {
   var game = req.body;
@@ -129,12 +146,25 @@ app.get('/api/main', function(req, res) {
   .then(function(courts) {
     findAllGames({})
     .then(function(games) {
-      var data = {
-        courts: courts,
-        games: games
-      };
+      var data = [];
 
-      res.send(JSON.stringify(data));
+      games.forEach(function(game) {
+        var courtData = courts.filter(function(court) {
+          return court.name === game.court;
+        });
+
+        var gameData = {
+          id: game._id,
+          type: game.type,
+          time: game.time,
+          playerIds: game.playerIds,
+          court: courtData[0]
+        };
+
+        data.push(gameData);
+      });
+
+      res.send({ data: data });
     });
   });
 });

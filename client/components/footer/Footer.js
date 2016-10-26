@@ -13,11 +13,11 @@ class Foot extends React.Component {
       return ( 
         <Footer>
           <Button style={styles.button}>
-            <Image source={require('../images/ruckerpark.jpg')} style={styles.image} />
+            <Image source={{uri: this.props.game.court.imageUrl}} style={styles.image} />
           </Button>
 
           <FooterTab>
-            <Button>{this.props.game.court}</Button>
+            <Button>{this.props.game.court.name}</Button>
           </FooterTab>
         </Footer>
       )
