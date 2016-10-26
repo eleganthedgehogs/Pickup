@@ -38,13 +38,7 @@ class HomeMap extends React.Component {
         longitude: LONGITUDE - SPACE,
       },
       games: [],
-      selectedGame: {
-        players: [1,2],
-        time: 120,
-        court: 'Dupa Court',
-        lat: LATITUDE - SPACE - 0.01,
-        long: LONGITUDE + SPACE + 0.01
-    }
+      selectedGame: false
     };
   }
 
