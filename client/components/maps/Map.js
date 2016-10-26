@@ -9,6 +9,7 @@ import {
 import MapView from'react-native-maps';
 import PriceMarker from './PriceMarker';
 import { Container, Header, Title, Text, Content, Footer, FooterTab, Button, Icon } from 'native-base';
+import FooterClass from '../footer/Footer';
 
 const { width, height } = Dimensions.get('window');
 
@@ -92,10 +93,7 @@ class HomeMap extends React.Component {
               </MapView.Marker>
           ))}
           </MapView>
-        <Footer>
-          <FooterTab><Button>Tab1</Button></FooterTab>
-          <FooterTab><Button>Tab2</Button></FooterTab>
-        </Footer>
+         <FooterClass />
         </View>
       </Container>
     );
