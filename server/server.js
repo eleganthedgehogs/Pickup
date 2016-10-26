@@ -21,6 +21,21 @@ var findGame = Promise.promisify(Game.findOne, Game);
 var createGame = Promise.promisify(Game.create, Game);
 var findAllGames = Promise.promisify(Game.find, Game);
 
+var Court = require('./models/courtModel.js');
+var courtData = require('./config/courtData.js');
+var createCourt = Promise.promisify(Court.create, Court);
+var removeCourts = Promise.promisify(Court.remove, Court);
+var findAllCourts = Promise.promisify(Court.find, Court);
+
+courtData.forEach(function(court) {
+  createCourt(court)
+  .then(function(court) {
+  })
+  .catch(function(e) {
+    console.log('Court already exists');
+  });
+});
+
 
 /************************MIDDLEWARE**************************/
 
@@ -54,6 +69,10 @@ app.post('/api/signin', function(req, res) {
         res.status(200).send('Signin successful!');
       }
     });
+  })
+  .catch(function(e) {
+    console.log('Error finding user', e);
+    res.end();
   });
 });
 
@@ -103,6 +122,21 @@ app.post('/api/games', function(req, res) {
 
       res.status(200).send('Game successfully created!');
     });
+});
+
+app.get('/api/main', function(req, res) {
+  findAllCourts({})
+  .then(function(courts) {
+    findAllGames({})
+    .then(function(games) {
+      var data = {
+        courts: courts,
+        games: games
+      };
+
+      res.send(JSON.stringify(data));
+    });
+  });
 });
 
 /***********************SERVER START*************************/
