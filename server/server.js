@@ -28,6 +28,8 @@ var createCourt = Promise.promisify(Court.create, Court);
 var removeCourts = Promise.promisify(Court.remove, Court);
 var findAllCourts = Promise.promisify(Court.find, Court);
 
+
+//saves fake court data into the database
 courtData.forEach(function(court) {
   createCourt(court)
   .then(function(court) {
@@ -37,6 +39,8 @@ courtData.forEach(function(court) {
   });
 });
 
+
+//saves fake game data into the database
 games.forEach(function(game) {
   createGame(game)
   .then(function(court) {
@@ -141,6 +145,8 @@ app.post('/api/games', function(req, res) {
     });
 });
 
+//grabs all courts and games stored in the database
+//then bundles them up before sending them to the client
 app.get('/api/main', function(req, res) {
   findAllCourts({})
   .then(function(courts) {
