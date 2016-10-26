@@ -3,10 +3,12 @@ import {
   StyleSheet,
   View,
   Dimensions,
+  SegmentedControlIOS
 } from 'react-native';
 
 import MapView from'react-native-maps';
 import PriceMarker from './PriceMarker';
+import { Container, Header, Title, Text, Content, Footer, FooterTab, Button, Icon } from 'native-base';
 
 const { width, height } = Dimensions.get('window');
 
@@ -63,27 +65,39 @@ class HomeMap extends React.Component {
   render() {
     var self = this;
     return (
-      <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={{
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
-          {this.state.games.map((game, i) => (
-            <MapView.Marker coordinate={{
-              latitude: game.lat,
-              longitude: game.long
-            }} key= {i}>
-                <PriceMarker amount={game.players.length} countdown={game.time}/>
-            </MapView.Marker>
-        ))}
-        </MapView>
-      </View>
+      <Container>
+        <View style={styles.container}>
+          <MapView
+            provider={this.props.provider}
+            style={styles.map}
+            initialRegion={{
+              latitude: LATITUDE,
+              longitude: LONGITUDE,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }}
+          >
+           <View style={styles.viewContainer}>
+            <Title style={styles.viewHeader}>Pickup</Title>
+            <View>
+              <SegmentedControlIOS style={styles.segmented} values={['Join', 'Create']} selectedIndex={0} />
+            </View>
+           </View>
+            {this.state.games.map((game, i) => (
+              <MapView.Marker coordinate={{
+                latitude: game.lat,
+                longitude: game.long
+              }} key= {i}>
+                  <PriceMarker amount={game.players.length} countdown={game.time}/>
+              </MapView.Marker>
+          ))}
+          </MapView>
+        <Footer>
+          <FooterTab><Button>Tab1</Button></FooterTab>
+          <FooterTab><Button>Tab2</Button></FooterTab>
+        </Footer>
+        </View>
+      </Container>
     );
   }
 }
@@ -101,6 +115,19 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  viewContainer: {
+    backgroundColor: 'rgba(255,255,255,0.5)'
+  },
+  viewHeader: {
+    marginTop: 28
+  },
+  segmented: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    marginLeft: 5,
+    marginRight: 5
+  }
 });
 
 module.exports = HomeMap;
