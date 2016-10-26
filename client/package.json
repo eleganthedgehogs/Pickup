@@ -14,7 +14,7 @@
     "react": "^15.3.1",
     "react-native": "^0.35.0",
     "react-native-cli": "^1.0.0",
-    "react-native-maps": "../"
+    "react-native-maps": "^0.10.2"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
