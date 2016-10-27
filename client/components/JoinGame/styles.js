@@ -1,7 +1,7 @@
 import React, { StyleSheet, Dimensions } from 'react-native';
 const deviceHeight = Dimensions.get('window').height;
-const createGameBtnColor = '#5DBCD2';
-const backgroundColor = 'rgba(0, 0, 0, 0.95)'
+const joinGameBtnColor = '#20DA9B';
+const backgroundColor = 'rgba(0, 0, 0, 0.93)';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,8 +25,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginLeft: 10,
     marginRight: 10,
-    backgroundColor: createGameBtnColor
-
+    backgroundColor: joinGameBtnColor
   },
   x: {
     position: 'absolute',
@@ -37,6 +36,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 25,
     lineHeight: 25
+  },
+  stats: {
+    fontSize: 60,
+    lineHeight: 60,
+    color: 'white',
+    marginTop: 40,
+    marginBottom: 30
   }
 
 });
