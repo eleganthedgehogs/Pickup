@@ -6,7 +6,7 @@ import helper from '../../utils/helper';
 
 const background = require('../images/shadow.png');
 
-class LogIn extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
