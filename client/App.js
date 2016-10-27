@@ -5,7 +5,7 @@ import LogIn from './components/login/login';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {view: 'login'};
+    this.state = {view: 'home'}; // changed from 'login' to 'home' to default to home page (skip login)
   }
 
   redirect(route) {

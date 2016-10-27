@@ -17,8 +17,9 @@ class Head extends Component {
 			 <View>
 			   <SegmentedControlIOS 
 			     style={styles.segmented} 
-			     values={['Join', 'Create']} 
-			     selectedIndex={0} />
+			     values={['Current Games', 'Create a Game']} 
+			     selectedIndex={0} 	
+			     onValueChange={ value => this.props.switchMode(value) } />
 			 </View>
 			</View>
 		)
