@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
-import PriceMarker from './PriceMarker';
 import { Container } from 'native-base';
-import Foot from '../footer/Footer';
+import MapView from 'react-native-maps';
 import styles from './styles';
-import Head from '../header/header';
 import helper from '../../utils/helper';
+
+import GameMarker from '../GameMarker/GameMarker';
+import CourtMarker from '../CourtMarker/CourtMarker';
+
+import Foot from '../footer/Footer';
+import Head from '../header/header';
 import CreateGame from '../CreateGame/CreateGame';
 
 const { width, height } = Dimensions.get('window');
@@ -15,7 +18,6 @@ const latitude = 37.78825;
 const longitude = -122.4324;
 const latitudeDelta = 0.0922;
 const longitudeDelta = latitudeDelta * aspectRatio;
-const SPACE = 0.01;
 const initialRegion = {latitude, longitude, latitudeDelta, longitudeDelta};
 
 class HomeMap extends Component {
@@ -24,26 +26,51 @@ class HomeMap extends Component {
 
     this.state = {
       games: [],
-      selectedGame: false
+      courts: [],
+      selectedGame: false,
+      selectedCourt: false,
+      mode: 'Current Games'
     };
   }
 
   componentWillMount() {
-    var self = this;
-    // use AXIOS to grab data from backend
     helper.getMainData()
-    .then(function(response) {
-      self.setState({games: response.data.games});
-      console.log(self.state.games);
-    })
-    .catch(function(error) {
-      console.log('this is the error');
-    });
+          .then( response => this.setState({games: response.data.games, courts: response.data.courts}))
+          .catch( error => console.log('this is the error') );
+  }
+
+  renderGames() {
+    let self = this;
+    return (
+      this.state.games.map((game, i) => (
+        <MapView.Marker 
+          onPress={ event => self.setState({selectedGame: game}) }
+          coordinate={{latitude: game.court.latitude, longitude: game.court.longitude}} 
+          key={i}>
+            <GameMarker 
+              amount={game.playerIds.length} 
+              countdown={game.time}/>
+        </MapView.Marker>
+      ))
+    )
+  }
+
+  renderCourts() {
+    let self = this;
+    return (
+      this.state.courts.map((court, i) => (
+        <MapView.Marker 
+          onPress={ event => self.setState({selectedCourt: court}) }
+          coordinate={{latitude: court.latitude, longitude: court.longitude}} 
+          key={i}>
+            <CourtMarker 
+              name={court.name}/>
+        </MapView.Marker>
+      ))
+    )
   }
 
   render() {
-    console.log(this.state.games);
-    var self = this;
     return (
       <Container>
 
@@ -52,25 +79,13 @@ class HomeMap extends Component {
             provider={this.props.provider}
             style={styles.map}
             initialRegion = {initialRegion}>
-            <Head />
+            <Head switchMode={ mode => this.setState({mode: mode})}/>
 
-            {this.state.games.map((game, i) => (
-              <MapView.Marker 
-                onPress={ event => self.setState({selectedGame: game}) }
-                coordinate={{latitude: game.court.latitude, longitude: game.court.longitude}} 
-                key={i}>
-                  <PriceMarker 
-                    amount={game.playerIds.length} 
-                    countdown={game.time}/>
-              </MapView.Marker>
-            ))}
+            {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
 
           </MapView>
-        <Foot game={self.state.selectedGame}/>
-        <CreateGame />
-
+        <Foot game={this.state.selectedGame} court={this.state.selectedCourt} mode={this.state.mode}/>
         </View>
-
       </Container>
     );
   }
