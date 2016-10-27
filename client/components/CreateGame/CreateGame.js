@@ -15,7 +15,11 @@ class CreateGame extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-			 <Button transparent textStyle={styles.xtext} style={styles.x}>X</Button>
+			 <Button 
+			 	transparent
+			 	onPress={ () => this.props.exitCreateGame() } 
+			 	textStyle={styles.xtext} 
+			 	style={styles.x}>X</Button>
 
 			 <View style={styles.innerContainer}>
 			 	<Title style={styles.title}>Game Type</Title>
@@ -26,7 +30,11 @@ class CreateGame extends Component {
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
 			  <TimePicker />
 			  
-			  <Button block success style={styles.button}>Let's Play!</Button>
+			  <Button 
+			  	block
+			  	success
+			  	onPress={ () => this.props.postGame() }
+			  	style={styles.button}>Let's Play!</Button>
 			 </View>
 			</View>
 		)
