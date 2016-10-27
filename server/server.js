@@ -50,6 +50,14 @@ games.forEach(function(game) {
   });
 });
 
+createUser({ email: 'eleganthedgehogs@hr.com', password: 'poop' })
+.then(function(user) {
+  console.log(user);
+})
+.catch(function(e) {
+  console.log('User already exists');
+});
+
 
 /************************MIDDLEWARE**************************/
 
@@ -70,7 +78,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 /**************************API ROUTES****************************/
 
 // handle user signin
-app.post('/api/signin', function(req, res) {
+app.post('/api/login', function(req, res) {
   var user = req.body;
 
   findUser({ email: user.email })
@@ -80,13 +88,16 @@ app.post('/api/signin', function(req, res) {
     currentUser.comparePasswords(user.password)
     .then(function(matched) {
       if (matched) {
-        res.status(200).send('Signin successful!');
+        res.status(200).send('login successful!');
       }
+    })
+    .catch(function(error) {
+      res.status(404).end();
     });
   })
   .catch(function(e) {
     console.log('Error finding user', e);
-    res.end();
+    res.status(404).end();
   });
 });
 
@@ -170,7 +181,10 @@ app.get('/api/main', function(req, res) {
         data.push(gameData);
       });
 
-      res.send({ data: data });
+      res.send({ 
+        games: data,
+        courts: courts
+      });
     });
   });
 });

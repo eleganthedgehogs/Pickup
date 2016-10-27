@@ -1,7 +1,10 @@
-import React, { StyleSheet, Dimensions } from 'react-native';
+const React = require('react-native');
+
+const { StyleSheet, Dimensions } = React;
+
 const deviceHeight = Dimensions.get('window').height;
 
-const styles = StyleSheet.create({
+module.exports = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
@@ -35,5 +38,3 @@ const styles = StyleSheet.create({
     color: 'red'
   }
 });
-
-export default styles;
