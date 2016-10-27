@@ -29,7 +29,8 @@ class HomeMap extends Component {
       courts: [],
       selectedGame: false,
       selectedCourt: false,
-      mode: 'Current Games'
+      mode: 'Current Games',
+      creatingGame: false
     };
   }
 
@@ -70,6 +71,14 @@ class HomeMap extends Component {
     )
   }
 
+  renderCreateGame() {
+    return (
+      <CreateGame 
+        exitCreateGame={ () => this.setState({creatingGame: false}) }
+        postGame={ () => helper.postNewGame(this.state.selectedCourt)}/>
+    )
+  }
+
   render() {
     return (
       <Container>
@@ -84,7 +93,13 @@ class HomeMap extends Component {
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
 
           </MapView>
-        <Foot game={this.state.selectedGame} court={this.state.selectedCourt} mode={this.state.mode}/>
+        <Foot 
+          game={this.state.selectedGame} 
+          court={this.state.selectedCourt} 
+          mode={this.state.mode}
+          createGame={() => this.setState({creatingGame: true})}/>
+
+        {this.state.creatingGame && this.renderCreateGame()}
         </View>
       </Container>
     );
