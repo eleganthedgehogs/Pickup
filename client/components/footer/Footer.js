@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { Footer, FooterTab, Button } from 'native-base';
+import { Image, View } from 'react-native';
+import { Footer, FooterTab, Button, Title } from 'native-base';
 import styles from './styles';
 
 class Foot extends React.Component {
@@ -8,26 +8,31 @@ class Foot extends React.Component {
     super(props);
   }
 
-  render() {
+  renderGameInfo() {
     if (this.props.game) {
-      return ( 
+      return (
         <Footer>
-          <Button style={styles.button}>
-            <Image source={{uri: this.props.game.court.imageUrl}} style={styles.image} />
-          </Button>
-
-          <FooterTab>
-            <Button>{this.props.game.court.name}</Button>
-          </FooterTab>
+          <Image source={{uri: this.props.game.court.imageUrl}} style={styles.image} />
+          <Title>{this.props.game.court.name}</Title>
         </Footer>
       )
     } else {
-    return (  
-       <Footer>
-        <FooterTab><Button>Please select a game</Button></FooterTab>
-       </Footer>
-       )
+      return (  
+        <Footer><Title>Please select a game</Title></Footer>
+      )
     }
+  }
+
+  renderCourtInfo() {
+
+  }
+
+  render() {
+    return (
+      <Footer>
+        { this.props.mode === 'Current Games' ? this.renderGameInfo() : this.renderCourtInfo() }
+      </Footer>
+    ) 
   }
 }
 
