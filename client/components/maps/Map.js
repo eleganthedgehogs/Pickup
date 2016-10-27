@@ -33,7 +33,7 @@ class HomeMap extends Component {
     // use AXIOS to grab data from backend
     helper.getMainData()
     .then(function(response) {
-      self.setState({games: response.data.data});
+      self.setState({games: response.data.games});
       console.log(self.state.games);
     })
     .catch(function(error) {
