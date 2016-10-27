@@ -7,7 +7,7 @@ import Foot from '../footer/Footer';
 import styles from './styles';
 import Head from '../header/header';
 import helper from '../../utils/helper';
-import axios from 'axios';
+import CreateGame from '../CreateGame/CreateGame';
 
 const { width, height } = Dimensions.get('window');
 const aspectRatio = width / height;
@@ -46,12 +46,12 @@ class HomeMap extends Component {
     var self = this;
     return (
       <Container>
+
         <View style={styles.container}>
           <MapView
             provider={this.props.provider}
             style={styles.map}
             initialRegion = {initialRegion}>
-           
             <Head />
 
             {this.state.games.map((game, i) => (
@@ -66,11 +66,14 @@ class HomeMap extends Component {
             ))}
 
           </MapView>
-         <Foot game={self.state.selectedGame}/>
+        <Foot game={self.state.selectedGame}/>
+        <CreateGame />
+
         </View>
+
       </Container>
     );
   }
 }
 
-module.exports = HomeMap;
+export default HomeMap;

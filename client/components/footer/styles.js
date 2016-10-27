@@ -1,7 +1,6 @@
-const React = require('react-native');
-const { StyleSheet } = React;
+import React, { StyleSheet } from 'react-native';
 
-module.exports = StyleSheet.create({
+const styles = StyleSheet.create({
   button: {
     backgroundColor: 'rgba(0,0,0,0)', 
     shadowColor: 'rgba(0,0,0,0)'
@@ -12,3 +11,5 @@ module.exports = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
+export default styles;
