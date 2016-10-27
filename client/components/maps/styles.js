@@ -1,7 +1,6 @@
-const React = require('react-native');
-const { StyleSheet } = React;
+import React, { StyleSheet } from 'react-native';
 
-module.exports = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
@@ -9,5 +8,12 @@ module.exports = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+  },
+  blur: {
+  	flex: 1, 
+  	justifyContent: 'center',
+  	backgroundColor: 'transparent'
   }
 });
+
+export default styles;

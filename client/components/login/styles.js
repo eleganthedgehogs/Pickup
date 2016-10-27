@@ -1,10 +1,7 @@
-const React = require('react-native');
-
-const { StyleSheet, Dimensions } = React;
-
+import React, { StyleSheet, Dimensions } from 'react-native';
 const deviceHeight = Dimensions.get('window').height;
 
-module.exports = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
@@ -34,3 +31,5 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+export default styles;

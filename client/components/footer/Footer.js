@@ -31,4 +31,4 @@ class Foot extends React.Component {
   }
 }
 
-module.exports = Foot;
+export default Foot;
