@@ -11,6 +11,7 @@ import CourtMarker from '../CourtMarker/CourtMarker';
 import Foot from '../footer/Footer';
 import Head from '../header/header';
 import CreateGame from '../CreateGame/CreateGame';
+import JoinGame from '../JoinGame/JoinGame';
 
 const { width, height } = Dimensions.get('window');
 const aspectRatio = width / height;
@@ -30,7 +31,8 @@ class HomeMap extends Component {
       selectedGame: false,
       selectedCourt: false,
       mode: 'Current Games',
-      creatingGame: false
+      creatingGame: false,
+      joiningGame: false
     };
   }
 
@@ -79,6 +81,15 @@ class HomeMap extends Component {
     )
   }
 
+  renderJoinGame() {
+    return (
+      <JoinGame
+        game={this.state.selectedGame} 
+        exitJoinGame={ () => this.setState({joiningGame: false}) }
+        joinGame={ () => helper.joinGame(this.state.selectedGame)}/>
+    )
+  }
+
   render() {
     return (
       <Container>
@@ -88,18 +99,23 @@ class HomeMap extends Component {
             provider={this.props.provider}
             style={styles.map}
             initialRegion = {initialRegion}>
+
             <Head switchMode={ mode => this.setState({mode: mode})}/>
 
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
-
           </MapView>
-        <Foot 
-          game={this.state.selectedGame} 
-          court={this.state.selectedCourt} 
-          mode={this.state.mode}
-          createGame={() => this.setState({creatingGame: true})}/>
 
-        {this.state.creatingGame && this.renderCreateGame()}
+          {this.state.creatingGame && this.renderCreateGame()}
+          {this.state.joiningGame && this.renderJoinGame()}
+
+          <Foot 
+            game={this.state.selectedGame} 
+            court={this.state.selectedCourt} 
+            mode={this.state.mode}
+            createGame={() => this.setState({creatingGame: true})}
+            joinGame={() => this.setState({joiningGame: true})}/>
+
+
         </View>
       </Container>
     );

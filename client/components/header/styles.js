@@ -1,18 +1,19 @@
 import React, { StyleSheet } from 'react-native';
+const headerBackground = 'rgba(250,250,250,0.9)';
 
 const styles = StyleSheet.create({
   viewContainer: {
-    backgroundColor: 'rgba(255,255,255,0.5)'
+    backgroundColor: headerBackground
   },
   viewHeader: {
     marginTop: 28
   },
   segmented: {
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 10,
-    backgroundColor: 'rgba(255,255,255,0.5)',
-    marginLeft: 5,
-    marginRight: 5
+    backgroundColor: headerBackground,
+    marginLeft: 60,
+    marginRight: 60
   }
 });
 
