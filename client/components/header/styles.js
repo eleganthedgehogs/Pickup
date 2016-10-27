@@ -1,7 +1,6 @@
-const React = require('react-native');
-const { StyleSheet } = React;
+import React, { StyleSheet } from 'react-native';
 
-module.exports = StyleSheet.create({
+const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: 'rgba(255,255,255,0.5)'
   },
@@ -16,3 +15,5 @@ module.exports = StyleSheet.create({
     marginRight: 5
   }
 });
+
+export default styles;
