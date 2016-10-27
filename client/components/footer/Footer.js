@@ -11,10 +11,12 @@ class Foot extends React.Component {
   renderGameInfo() {
     if (this.props.game) {
       return (
-        <View style={styles.container}>
-          <Image source={{uri: this.props.game.court.imageUrl}} style={styles.image} />
-          <Title style={styles.name}>{this.props.game.court.name}</Title>
-        </View>
+        <TouchableHighlight onPress={() => this.props.joinGame()} style={styles.container}>
+          <View style={styles.container}>
+            <Image source={{uri: this.props.game.court.imageUrl}} style={styles.image} />
+            <Title style={styles.name}>{this.props.game.court.name}</Title>
+          </View>
+        </TouchableHighlight>
       )
     } else {
       return (  
@@ -42,7 +44,7 @@ class Foot extends React.Component {
 
   render() {
     return (
-      <Footer height={100}>
+      <Footer height={100} style={styles.footer}>
         { this.props.mode === 'Current Games' ? this.renderGameInfo() : this.renderCourtInfo() }
       </Footer>
     ) 

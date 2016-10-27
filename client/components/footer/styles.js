@@ -1,13 +1,11 @@
 import React, { StyleSheet } from 'react-native';
+const footerBackground = 'rgba(250,250,250,0.9)';
 
 const styles = StyleSheet.create({
   container: {
   	alignSelf: 'stretch', 
-  	flexDirection: 'row'
-  },
-  button: {
-    backgroundColor: 'rgba(0,0,0,0)', 
-    shadowColor: 'rgba(0,0,0,0)'
+  	flexDirection: 'row',
+    backgroundColor: 'transparent'
   },
   image: {
     width: 150, 
@@ -15,6 +13,9 @@ const styles = StyleSheet.create({
   },
   name: {
   	marginLeft: 10
+  },
+  footer: {
+    backgroundColor: footerBackground
   }
 });
 

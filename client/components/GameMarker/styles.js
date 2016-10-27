@@ -1,4 +1,5 @@
 import React, { StyleSheet } from 'react-native';
+const markerColor = '#20DA9B';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,10 +10,10 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    backgroundColor: '#FF5A5F',
-    padding: 2,
-    borderRadius: 3,
-    borderColor: '#D23F44',
+    backgroundColor: markerColor,
+    padding: 6,
+    borderRadius: 20,
+    borderColor: markerColor,
     borderWidth: 0.5,
   },
   dollar: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 4,
     borderColor: 'transparent',
-    borderTopColor: '#FF5A5F',
+    borderTopColor: markerColor,
     alignSelf: 'center',
     marginTop: -9,
   },
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 4,
     borderColor: 'transparent',
-    borderTopColor: '#D23F44',
+    borderTopColor: markerColor,
     alignSelf: 'center',
     marginTop: -0.5,
   },

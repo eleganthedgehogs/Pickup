@@ -3,10 +3,10 @@ import styles from './styles';
 import { View } from 'react-native';
 import { Title, Button } from 'native-base';
 import Hr from 'react-native-hr';
-import GamePicker from '../GamePicker/GamePicker';
-import TimePicker from '../TimePicker/TimePicker';
 
-class CreateGame extends Component {
+const joinGameBtnColor = '#20DA9B';
+
+class JoinGame extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {}
@@ -17,28 +17,31 @@ class CreateGame extends Component {
 			<View style={styles.container}>
 			 <Button 
 			 	transparent
-			 	onPress={ () => this.props.exitCreateGame() } 
+			 	onPress={ () => this.props.exitJoinGame() } 
 			 	textStyle={styles.xtext} 
 			 	style={styles.x}>X</Button>
 
 			 <View style={styles.innerContainer}>
-			 	<Title style={styles.title}>Game Type</Title>
+			  <Title style={styles.title}>Game Type</Title>
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
-			  <GamePicker />
+			  <Title style={styles.stats}>{this.props.game.type}</Title>
 
 			  <Title style={styles.title}>Start Time</Title>
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
-			  <TimePicker />
-			  
+			  <Title style={styles.stats}>{this.props.game.time}</Title>
+
+			  <Title style={styles.title}>Number of Players</Title>
+			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
+			  <Title style={styles.stats}>{this.props.game.playerIds.length}</Title>
+
 			  <Button 
 			  	block
-			  	success
-			  	onPress={ () => this.props.postGame() }
-			  	style={styles.button}>Create Game!</Button>
+			  	onPress={ () => this.props.joinGame() }
+			  	style={styles.button}>Join Game!</Button>
 			 </View>
 			</View>
 		)
 	}
 }
 
-export default CreateGame;
+export default JoinGame;
