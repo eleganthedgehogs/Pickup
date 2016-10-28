@@ -103,7 +103,7 @@ class HomeMap extends Component {
           court: this.state.selectedCourt.name
           })
         }/>
-    )
+   )
   }
 
   renderJoinGame() {
