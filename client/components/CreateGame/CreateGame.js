@@ -16,17 +16,17 @@ class CreateGame extends Component {
 		}
 	}
 
-	updateGameType(newGameType) {
-		this.setState({
-			newGameType: newGameType
-		})
-	}
+	// updateGameType(newGameType) {
+	// 	this.setState({
+	// 		newGameType: newGameType
+	// 	})
+	// }
 
-	updateGameTime(newTimeData) {
-		this.setState({
-			newTimeData: newTimeData
-		})
-	}
+	// updateGameTime(newTimeData) {
+	// 	this.setState({
+	// 		newTimeData: newTimeData
+	// 	})
+	// }
 
 	render() {
 		return (
@@ -40,10 +40,10 @@ class CreateGame extends Component {
 			 <View style={styles.innerContainer}>
 			 	<Title style={styles.title}>Game Type</Title>
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
-			  <GamePicker ref="gamePickerData" onGameTypeChange= {this.updateGameType.bind(this)}/>
+			  <GamePicker ref="gamePickerData" onGameTypeChange= {this.props.onGameTypeChange}/>
 			  <Title style={styles.title}>Start Time</Title>
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
-			  <TimePicker ref="timePickerData" onTimeDataChange= {this.updateGameTime.bind(this)}/>
+			  <TimePicker ref="timePickerData" onTimeDataChange= {this.props.onTimeDataChange}/>
 			  <Button 
 			  	block
 			  	success
@@ -60,8 +60,8 @@ class CreateGame extends Component {
 	}
 
 	componentDidUpdate() {
-		console.log("State's gameType is:", this.state.newGameType);
-		console.log("State's newTimeData is:", this.state.newTimeData);
+		// console.log("State's gameType is:", this.state.newGameType);
+		// console.log("State's newTimeData is:", this.state.newTimeData);
 		// this.setState({newGameType: this.state.newGameType});
 	}
 }
