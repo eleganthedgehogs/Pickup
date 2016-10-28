@@ -41,6 +41,7 @@ class HomeMap extends Component {
     };
   }
 
+
   updateGameType(newGameType) {
     this.setState({
       selectedGameType: newGameType
