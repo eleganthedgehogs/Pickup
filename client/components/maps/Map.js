@@ -41,10 +41,6 @@ class HomeMap extends Component {
     };
   }
 
-  // pullGameOptions(gameType, gameTime) {
-  //   this.setState({selectedGameType: gameType, selectedGameTime: gameTime})
-  // }
-
   updateGameType(newGameType) {
     this.setState({
       selectedGameType: newGameType
@@ -107,9 +103,6 @@ class HomeMap extends Component {
           court: this.state.selectedCourt.name
           })
         }/>
-        // postGame={ () => console.log('GamePicker:', this.refs.createGameData.state.newGameType, 'TimePicker:', TimePicker)
-      // }/>
-
     )
   }
 
