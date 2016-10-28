@@ -47,7 +47,9 @@ class LogIn extends Component {
                   
                   <Input 
                     placeholder="EMAIL" 
-                    onChangeText={ email => this.setState({ email }) } />
+                    onChangeText={ email => this.setState({ email }) }
+                    autoCorrect={false}
+                    autoCapitalize="none" />
                   
                 </InputGroup>
                 <InputGroup style={styles.input}>
