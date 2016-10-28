@@ -19,7 +19,9 @@ class GamePicker extends Component {
 	    <PickerIOS
 		 		itemStyle={ styles.itemStyle }
 	      selectedValue={this.state.gameType}
-	      onValueChange={ gameType => this.setState({gameType}) }>
+	      onValueChange={ gameType => {
+	      	this.setState({gameType}, () => this.props.onGameTypeChange(this.state.gameType))
+      	}}>
 	      {GAME_TYPES.map((gameType) => (
 		      <PickerItemIOS 
 		        key={gameType}
@@ -29,7 +31,6 @@ class GamePicker extends Component {
     	</PickerIOS>	
 		)
 	}
-
 }
 
 export default GamePicker;
