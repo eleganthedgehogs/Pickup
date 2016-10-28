@@ -16,6 +16,18 @@ class CreateGame extends Component {
 		}
 	}
 
+	updateGameType(newGameType) {
+		this.setState({
+			newGameType: newGameType
+		})
+	}
+
+	updateGameTime(newTimeData) {
+		this.setState({
+			newTimeData: newTimeData
+		})
+	}
+
 	// updateGameType(newGameType) {
 	// 	this.setState({
 	// 		newGameType: newGameType
@@ -59,11 +71,6 @@ class CreateGame extends Component {
 		this.setState({newGameType: this.refs.gamePickerData.state.gameType});
 	}
 
-	componentDidUpdate() {
-		// console.log("State's gameType is:", this.state.newGameType);
-		// console.log("State's newTimeData is:", this.state.newTimeData);
-		// this.setState({newGameType: this.state.newGameType});
-	}
 }
 
 export default CreateGame;
