@@ -16,20 +16,24 @@ class SignUp extends Component {
     };
   }
 
-  submitLogin() {
+  submitSignup() {
     var self = this;
     var user = {
       email: this.state.email,
       password: this.state.password
     };
 
-    helper.postLogin(user)
+    helper.postSignUp(user)
     .then(response => self.redirect('home') )
     .catch( error => this.setState({ incorrectAttempt: true }) ); // move this line to .then success callback when server is running
   } 
 
   redirect(route) {
     this.props.redirect(route);
+  }
+
+  logInAccount() {
+    this.redirect('login');
   }
 
   render() {
@@ -43,7 +47,9 @@ class SignUp extends Component {
                   
                   <Input 
                     placeholder="EMAIL" 
-                    onChangeText={ email => this.setState({ email }) } />
+                    onChangeText={ email => this.setState({ email }) }
+                    autoCorrect={false}
+                    autoCapitalize="none" />
                   
                 </InputGroup>
                 <InputGroup style={styles.input}>
@@ -56,9 +62,16 @@ class SignUp extends Component {
                 </InputGroup>
                 <Button 
                   style={styles.btn} 
-                  onPress={() => this.submitLogin()} >
+                  onPress={() => this.submitSignup()} >
                   Sign Up
                 </Button>
+
+                <Text 
+                  style={styles.login} 
+                  onPress={() => {this.logInAccount()}}>
+                  Already have an account? Log in here!
+                </Text>
+
               </View>
             </Image>
           </Content>
