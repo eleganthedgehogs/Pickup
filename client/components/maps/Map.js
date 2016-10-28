@@ -35,8 +35,26 @@ class HomeMap extends Component {
       selectedCourt: false,
       mode: 'Current Games',
       creatingGame: false,
-      joiningGame: false
+      joiningGame: false,
+      selectedGameType: '5 on 5',
+      selectedGameTime: new Date()
     };
+  }
+
+  // pullGameOptions(gameType, gameTime) {
+  //   this.setState({selectedGameType: gameType, selectedGameTime: gameTime})
+  // }
+
+  updateGameType(newGameType) {
+    this.setState({
+      selectedGameType: newGameType
+    })
+  }
+
+  updateGameTime(newTimeData) {
+    this.setState({
+      selectedGameTime: newTimeData
+    })
   }
 
   componentWillMount() {
@@ -79,6 +97,8 @@ class HomeMap extends Component {
   renderCreateGame() {
     return (
       <CreateGame ref="createGameData"
+        onGameTypeChange= {this.updateGameType.bind(this)}
+        onTimeDataChange= {this.updateGameTime.bind(this)}
         exitCreateGame={ () => this.setState({creatingGame: false}) }
         postGame={ () => console.log('GamePicker:', this.refs.createGameData.state.newGameType, 'TimePicker:', TimePicker)
       }/>
@@ -131,6 +151,11 @@ class HomeMap extends Component {
         </View>
       </Container>
     );
+  }
+
+  componentDidUpdate() {
+    console.log("State's gameType is:", this.state.selectedGameType);
+    console.log("State's newTimeData is:", this.state.selectedGameTime);
   }
 }
 
