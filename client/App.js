@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HomeMap from './components/maps/Map';
 import LogIn from './components/login/login';
+import SignUp from './components/signup/signup';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,6 +22,10 @@ class App extends React.Component {
       return (
         <HomeMap redirect={this.redirect.bind(this)}/>
       )
+    } else if (this.state.view === 'signup') {
+      return (
+        <SignUp redirect={this.redirect.bind(this)} />
+      )  
     }
   }
 }

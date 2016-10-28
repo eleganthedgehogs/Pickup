@@ -33,6 +33,12 @@ const styles = StyleSheet.create({
   incorrect: {
     alignSelf: 'center',
     color: 'red'
+  },
+  signup: {
+    marginTop: 25,
+    alignSelf: 'center',
+    fontSize: 14,
+    color: 'grey'
   }
 });
 

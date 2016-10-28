@@ -1,7 +1,5 @@
 const React = require('react-native');
-
 const { StyleSheet, Dimensions } = React;
-
 const deviceHeight = Dimensions.get('window').height;
 
 module.exports = StyleSheet.create({
@@ -32,6 +30,7 @@ module.exports = StyleSheet.create({
   btn: {
     marginTop: 20,
     alignSelf: 'center',
+    backgroundColor: 'red'
   },
   incorrect: {
     alignSelf: 'center',
