@@ -100,16 +100,16 @@ class HomeMap extends Component {
         onGameTypeChange= {this.updateGameType.bind(this)}
         onTimeDataChange= {this.updateGameTime.bind(this)}
         exitCreateGame={ () => this.setState({creatingGame: false}) }
-        postGame={ () => console.log('GamePicker:', this.refs.createGameData.state.newGameType, 'TimePicker:', TimePicker)
-      }/>
+        postGame={ () => helper.postNewGame({
+          type: this.state.selectedGameType,
+          playerIds: ['12345'],
+          time: this.state.selectedGameTime,
+          court: this.state.selectedCourt.name
+          })
+        }/>
+        // postGame={ () => console.log('GamePicker:', this.refs.createGameData.state.newGameType, 'TimePicker:', TimePicker)
+      // }/>
 
-      //   postGame={ () => helper.postNewGame(  {
-      //     type: GamePicker.gameType,
-      //     playerIds: ['userid'],
-      //     time: TimePicker.date,
-      //     court: this.state.selectedCourt
-      //   }
-      // )}/>
     )
   }
 
