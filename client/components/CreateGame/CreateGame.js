@@ -9,7 +9,23 @@ import TimePicker from '../TimePicker/TimePicker';
 class CreateGame extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = {
+			newGameType: false,
+			newTimeData: false,
+			dataAvailable: false
+		}
+	}
+
+	updateGameType(newGameType) {
+		this.setState({
+			newGameType: newGameType
+		})
+	}
+
+	updateGameTime(newTimeData) {
+		this.setState({
+			newTimeData: newTimeData
+		})
 	}
 
 	render() {
@@ -24,12 +40,10 @@ class CreateGame extends Component {
 			 <View style={styles.innerContainer}>
 			 	<Title style={styles.title}>Game Type</Title>
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
-			  <GamePicker />
-
+			  <GamePicker ref="gamePickerData" onGameTypeChange= {this.updateGameType.bind(this)}/>
 			  <Title style={styles.title}>Start Time</Title>
 			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
-			  <TimePicker />
-			  
+			  <TimePicker ref="timePickerData" onTimeDataChange= {this.updateGameTime.bind(this)}/>
 			  <Button 
 			  	block
 			  	success
@@ -38,6 +52,17 @@ class CreateGame extends Component {
 			 </View>
 			</View>
 		)
+	}
+
+	componentDidMount() {
+		console.log('After mounting, this.refs is:', this.refs, 'and its state is:', this.refs.gamePickerData.state);
+		this.setState({newGameType: this.refs.gamePickerData.state.gameType});
+	}
+
+	componentDidUpdate() {
+		console.log("State's gameType is:", this.state.newGameType);
+		console.log("State's newTimeData is:", this.state.newTimeData);
+		// this.setState({newGameType: this.state.newGameType});
 	}
 }
 

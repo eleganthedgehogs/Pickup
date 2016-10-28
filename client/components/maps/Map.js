@@ -12,6 +12,9 @@ import Foot from '../footer/Footer';
 import Head from '../header/header';
 import CreateGame from '../CreateGame/CreateGame';
 import JoinGame from '../JoinGame/JoinGame';
+// might need to import both Pickers to obtain the selected gametype and start time values
+import GamePicker from '../GamePicker/GamePicker';
+import TimePicker from '../TimePicker/TimePicker';
 
 const { width, height } = Dimensions.get('window');
 const aspectRatio = width / height;
@@ -75,9 +78,18 @@ class HomeMap extends Component {
 
   renderCreateGame() {
     return (
-      <CreateGame 
+      <CreateGame ref="createGameData"
         exitCreateGame={ () => this.setState({creatingGame: false}) }
-        postGame={ () => helper.postNewGame(this.state.selectedCourt)}/>
+        postGame={ () => console.log('GamePicker:', this.refs.createGameData.state.newGameType, 'TimePicker:', TimePicker)
+      }/>
+
+      //   postGame={ () => helper.postNewGame(  {
+      //     type: GamePicker.gameType,
+      //     playerIds: ['userid'],
+      //     time: TimePicker.date,
+      //     court: this.state.selectedCourt
+      //   }
+      // )}/>
     )
   }
 
