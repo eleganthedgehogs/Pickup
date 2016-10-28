@@ -1,3 +1,18 @@
+### Instructions on getting started
+1. First time: Fork the branch, clone the repo
+2. Once a clone of repo is on your computer
+    a. git pull upstream --rebase master
+    b. make sure you have nothing waiting to be staged
+        i. if you do, git checkout -- <files to be removed>
+    c. git checkout -b <newbranchname>, to create a new branch and switch over
+    d. npm install on root folder and and client folder
+3. In root directory, mongod or sudo mongod
+4. In root directory, mongo in a separate tab
+5. In root directory, npm start 
+6. In client directory, react-native start 
+7. In client directory, react-native run-ios
+
+
 # Contributing
 
 ## General Workflow
