@@ -16,29 +16,6 @@ class CreateGame extends Component {
 		}
 	}
 
-	updateGameType(newGameType) {
-		this.setState({
-			newGameType: newGameType
-		})
-	}
-
-	updateGameTime(newTimeData) {
-		this.setState({
-			newTimeData: newTimeData
-		})
-	}
-
-	// updateGameType(newGameType) {
-	// 	this.setState({
-	// 		newGameType: newGameType
-	// 	})
-	// }
-
-	// updateGameTime(newTimeData) {
-	// 	this.setState({
-	// 		newTimeData: newTimeData
-	// 	})
-	// }
 
 	render() {
 		return (
@@ -70,7 +47,6 @@ class CreateGame extends Component {
 		console.log('After mounting, this.refs is:', this.refs, 'and its state is:', this.refs.gamePickerData.state);
 		this.setState({newGameType: this.refs.gamePickerData.state.gameType});
 	}
-
 }
 
 export default CreateGame;
