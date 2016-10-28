@@ -37,7 +37,7 @@ class SignUp extends Component {
       <Container style={styles.container}>
         <View>
           <Content>
-            <Image source={{uri: 'http://orig05.deviantart.net/00af/f/2014/261/d/8/kobe__space_iphone_wallpaper_by_redzero03-d7zoc4k.png'}} style={styles.shadow}>
+            <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
                 <InputGroup style={styles.input}>
                   
@@ -57,7 +57,7 @@ class SignUp extends Component {
                 <Button 
                   style={styles.btn} 
                   onPress={() => this.submitLogin()} >
-                  Login
+                  Sign Up
                 </Button>
               </View>
             </Image>
@@ -73,4 +73,4 @@ class SignUp extends Component {
   }
 }
 
-export default LogIn;
+export default SignUp;

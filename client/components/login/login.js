@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Content, InputGroup, Input, Button, View, Text, Div } from 'native-base';
-import { Image } from 'react-native';
+import { Container, Content, InputGroup, Input, Button, View, Div } from 'native-base';
+import { Image, TouchableHighlight, Text } from 'react-native';
 import styles from './styles';
 import helper from '../../utils/helper';
 
@@ -12,7 +12,7 @@ class LogIn extends Component {
     this.state = {
       email: '',
       password: '',
-      incorrectAttempt: false
+      incorrectAttempt: false,
     };
   }
 
@@ -32,12 +32,16 @@ class LogIn extends Component {
     this.props.redirect(route);
   }
 
+  signUpAccount() {
+    this.redirect('signup');
+  }
+
   render() {
     return (
       <Container style={styles.container}>
         <View>
           <Content>
-            <Image source={{uri: 'http://orig05.deviantart.net/00af/f/2014/261/d/8/kobe__space_iphone_wallpaper_by_redzero03-d7zoc4k.png'}} style={styles.shadow}>
+            <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
                 <InputGroup style={styles.input}>
                   
@@ -59,6 +63,13 @@ class LogIn extends Component {
                   onPress={() => this.submitLogin()} >
                   Login
                 </Button>
+                
+                <Text 
+                  style={styles.signup} 
+                  onPress={() => {this.signUpAccount()}}>
+                  Don't have an account, sign up here!
+                </Text>
+
               </View>
             </Image>
           </Content>
