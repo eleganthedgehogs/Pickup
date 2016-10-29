@@ -20,6 +20,7 @@ app.get('/api/games', requestHandler.getGames);
 app.get('/api/courts', requestHandler.getCourts);
 app.post('/api/games', requestHandler.postGame);
 app.get('/api/main', requestHandler.getMain);
+app.post('/api/join', requestHandler.joinGame);
 
 
 /***********************SERVER START*************************/
