@@ -10,6 +10,10 @@ var findAllUsers = Promise.promisify(User.find, User);
 var Game = require('../models/gameModel.js');
 var findGame = Promise.promisify(Game.findOne, Game);
 var createGame = Promise.promisify(Game.create, Game);
+// var deleteGame = function(Game) {
+//   Game.remove();
+// }
+var deleteGame = Promise.promisify(Game.remove, Game);
 var findAllGames = Promise.promisify(Game.find, Game);
 
 var Court = require('../models/courtModel.js');
@@ -63,5 +67,6 @@ module.exports = {
   findAllGames: findAllGames,
   createCourt: createCourt,
   removeCourts: removeCourts,
-  findAllCourts: findAllCourts
+  findAllCourts: findAllCourts,
+  deleteGame: deleteGame
 };
