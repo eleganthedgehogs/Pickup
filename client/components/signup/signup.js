@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Content, InputGroup, Input, Button, View, Text, Div } from 'native-base';
-import { Image } from 'react-native';
+import { Image, AsyncStorage} from 'react-native';
 import styles from './styles';
 import helper from '../../utils/helper';
 
+var STORAGE_KEY = 'id_token';
 const background = require('../images/shadow.png');
 
 class SignUp extends Component {
@@ -16,6 +17,15 @@ class SignUp extends Component {
     };
   }
 
+   async _onValueChange(item, selectedValue) {
+    try {
+      await AsyncStorage.setItem(item, selectedValue);
+      console.log('token saved!');
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
+
   submitSignup() {
     var self = this;
     var user = {
@@ -24,7 +34,13 @@ class SignUp extends Component {
     };
 
     helper.postSignUp(user)
-    .then(response => self.redirect('home') )
+    .then(response => {
+      var token = JSON.parse(response._bodyText).id_token;
+      return self._onValueChange(STORAGE_KEY, token)
+      .then(function() {
+        self.redirect('home');
+      });
+    })
     .catch( error => this.setState({ incorrectAttempt: true }) ); // move this line to .then success callback when server is running
   } 
 
