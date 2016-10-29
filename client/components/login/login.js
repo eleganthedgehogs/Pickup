@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, InputGroup, Input, Button, View, Div } from 'native-base';
-import { Image, TouchableHighlight, Text, AsyncStorage, AlertIOS} from 'react-native';
+import { Image, TouchableHighlight, Text, AsyncStorage, AlertIOS } from 'react-native';
 import styles from './styles';
 import helper from '../../utils/helper';
 
@@ -43,7 +43,7 @@ class LogIn extends Component {
       });
     })
     .catch(error => {
-      // AlertIOS.alert('Username or password is invalid! Please try again.');
+      AlertIOS.alert('Username or password is invalid! Please try again.');
     });
   } 
 
