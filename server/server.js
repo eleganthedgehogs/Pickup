@@ -1,196 +1,27 @@
 var express = require('express');
-var Promise = require('bluebird');
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var morgan = require('morgan');
-var methodOverride = require('method-override');
+var db = require('./config/db.js');
+var middleware = require('./config/middleware.js');
+var requestHandler = require('./config/requestHandler.js');
 var port = process.env.PORT || 8000;
 var app = express();
 
-/*************************DATABASE***************************/
-
+/***************************DATABASE*****************************/
 mongoose.connect('mongodb://localhost/baller');
 
-var User = require('./models/userModel.js');
-var findUser = Promise.promisify(User.findOne, User);
-var createUser = Promise.promisify(User.create, User);
-var findAllUsers = Promise.promisify(User.find, User);
-
-var Game = require('./models/gameModel.js');
-var games = require('./config/gameData.js');
-var findGame = Promise.promisify(Game.findOne, Game);
-var createGame = Promise.promisify(Game.create, Game);
-var findAllGames = Promise.promisify(Game.find, Game);
-
-var Court = require('./models/courtModel.js');
-var courtData = require('./config/courtData.js');
-var createCourt = Promise.promisify(Court.create, Court);
-var removeCourts = Promise.promisify(Court.remove, Court);
-var findAllCourts = Promise.promisify(Court.find, Court);
-
-
-//saves fake court data into the database
-courtData.forEach(function(court) {
-  createCourt(court)
-  .then(function(court) {
-  })
-  .catch(function(e) {
-    console.log('Court already exists');
-  });
-});
-
-
-//saves fake game data into the database
-games.forEach(function(game) {
-  createGame(game)
-  .then(function(court) {
-  })
-  .catch(function(e) {
-    console.log('Game already exists');
-  });
-});
-
-createUser({ email: 'eleganthedgehogs@hr.com', password: 'poop' })
-.then(function(user) {
-  console.log(user);
-})
-.catch(function(e) {
-  console.log('User already exists');
-});
-
-
-/************************MIDDLEWARE**************************/
-
-
-//logs requests to the server in the console
-app.use(morgan('dev'));
-
-//parses the body of all incoming requests 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: 'application/vnd.api+json'}));
-
-// // override with the X-HTTP-Method-Override header in the request
-app.use(methodOverride('X-HTTP-Method-Override'));
-
+/**************************MIDDLEWARE****************************/
+middleware(app);
 
 /**************************API ROUTES****************************/
+app.post('/api/login', requestHandler.postLogin);
+app.post('/api/signup', requestHandler.postSignup);
+app.get('/api/users', requestHandler.getUsers);
+app.get('/api/games', requestHandler.getGames);
+app.get('/api/courts', requestHandler.getCourts);
+app.post('/api/games', requestHandler.postGame);
+app.get('/api/main', requestHandler.getMain);
 
-// handle user signin
-app.post('/api/login', function(req, res) {
-  var user = req.body;
-
-  findUser({ email: user.email })
-  .then(function(currentUser) {
-    if (!currentUser) { return res.status(404).send('User does not exist.'); }
-
-    currentUser.comparePasswords(user.password)
-    .then(function(matched) {
-      if (matched) {
-        res.status(200).send('login successful!');
-      }
-    })
-    .catch(function(error) {
-      res.status(404).end();
-    });
-  })
-  .catch(function(e) {
-    console.log('Error finding user', e);
-    res.status(404).end();
-  });
-});
-
-// handle user signup
-app.post('/api/signup', function(req, res) {
-  var user = req.body;
-  user.location = null;
-
-  findUser({ email: user.email })
-  .then(function(currentUser) {
-    if (currentUser) { return res.status(404).send('User already exists'); }
-    createUser(user)
-    .then(function(user) {
-      if (!user) { return res.status(404).send('Invalid user creation'); } 
-
-      res.status(200).send('Successfully created!');
-    });
-  });
-});
-
-
-// gets all users
-app.get('/api/users', function(req, res) {
-  findAllUsers({})
-  .then(function(users) {
-    res.status(200).send({users: users});
-  });
-});
-
-
-// gets all games
-app.get('/api/games', function(req, res) {
-  findAllGames({})
-  .then(function(games) {
-    res.status(200).send({games: games});
-  });
-});
-
-app.get('/api/courts', function(req, res) {
-  findAllCourts({})
-  .then(function(courts) {
-    res.status(200).send({courts: courts});
-  });
-});
-
-//post a game to the database
-app.post('/api/games', function(req, res) {
-  var game = req.body;
-  console.log(req.body);
-
-  createGame(game)
-    .then(function(game) {
-      if (!game) { return res.status(404).send('Invalid game creation'); } 
-
-      res.status(200).send('Game successfully created!');
-    });
-});
-
-//grabs all courts and games stored in the database
-//then bundles them up before sending them to the client
-app.get('/api/main', function(req, res) {
-  findAllCourts({})
-  .then(function(courts) {
-    findAllGames({})
-    .then(function(games) {
-      var data = [];
-
-      games.forEach(function(game) {
-        var courtData = courts.filter(function(court) {
-          return court.name === game.court;
-        });
-
-        var gameData = {
-          id: game._id,
-          type: game.type,
-          time: game.time,
-          playerIds: game.playerIds,
-          court: courtData[0]
-        };
-
-        data.push(gameData);
-      });
-
-      res.send({ 
-        games: data,
-        courts: courts
-      });
-    });
-  });
-});
 
 /***********************SERVER START*************************/
-
-
 app.listen(port);
 console.log('Listening on port', port);
