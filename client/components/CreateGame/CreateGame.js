@@ -36,12 +36,16 @@ class CreateGame extends Component {
 			  <Button 
 			  	block
 			  	success
-			  	onPress={ () => this.props.postGame() }
+			  	onPress={ () => {
+			  		this.props.postGame();
+			  		this.props.submitGame();
+			  	}}
 			  	style={styles.button}>Create Game!</Button>
 			 </View>
 			</View>
 		)
 	}
+
 
 	componentDidMount() {
 		console.log('After mounting, this.refs is:', this.refs, 'and its state is:', this.refs.gamePickerData.state);
