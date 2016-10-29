@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions, AsyncStorage } from 'react-native';
+import { View, Dimensions, AsyncStorage, AlertIOS } from 'react-native';
 import { Container } from 'native-base';
 import MapView from 'react-native-maps';
 import styles from './styles';
@@ -106,12 +106,12 @@ class HomeMap extends Component {
 
   handleSubmitGame() {
     helper.getMainData()
-      .then( response => {
+      .then(response => {
         this.setState({segmentedIosIndex: 0, games: response.data.games, courts: response.data.courts, creatingGame: false, mode: 'Current Games'}, () => {
           this.renderGames();
         });
       })
-      .catch( error => console.log('this is the error:', error) );
+      .catch(error => console.log('this is the error:', error));
   }
 
   renderCreateGame() {
@@ -131,43 +131,24 @@ class HomeMap extends Component {
    )
   }
 
+  //grabs the json token stored in the app's AsyncStorage
   async _getToken(game) {
     try {
       let token = await AsyncStorage.getItem(STORAGE_KEY);
       helper.joinGame(game, token)
+      .then(response => AlertIOS.alert('You have been added to the game. BALL OUT!'))
+      .catch(error => AlertIOS.alert('You are already a part of this game. BALL OUT!'))
     } catch (error) {
       console.log('AsyncStorage error getting token: ' + error.message);
     }
   }
 
   renderJoinGame() {
-    // try {
-    //   console.log('ATTEMPTING TO JOIN GAME');
-    //   var token = await AsyncStorage.getItem(STORAGE_KEY);
-
-    //   return (
-    //   <JoinGame
-    //     game={this.state.selectedGame} 
-    //     exitJoinGame={ () => this.setState({joiningGame: false}) }
-    //     joinGame={ () => helper.joinGame(this.state.selectedGame, token)}/>
-    //   )
-    // } catch (error) {
-    //   console.log('error retrieving token', error);
-    // }
-
     return (
       <JoinGame
         game={this.state.selectedGame} 
         exitJoinGame={ () => this.setState({joiningGame: false}) }
-        joinGame={ () => {
-          this._getToken(this.state.selectedGame)
-          // .then(function(token) {
-          //   helper.joinGame(this.state.selectedGame, token)
-          // })
-          // .catch(function(error) {
-          //   console.log('Error retrieving token from promise');
-          // })
-        }}
+        joinGame={ () => { this._getToken(this.state.selectedGame) }}
       />
     )
   }

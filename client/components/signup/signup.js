@@ -35,7 +35,7 @@ class SignUp extends Component {
 
     helper.postSignUp(user)
     .then(response => {
-      var token = JSON.parse(response._bodyText).id_token;
+      var token = response.data.id_token;
       return self._onValueChange(STORAGE_KEY, token)
       .then(function() {
         self.redirect('home');
