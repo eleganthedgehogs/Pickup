@@ -98,8 +98,12 @@ var postGame = function(req, res) {
 
   db.createGame(game)
     .then(function(game) {
-      if (!game) { return res.status(404).send('Invalid game creation'); } 
+      if (!game) { return res.status(404).send('Invalid game creation');
+       } 
 
+      // set Timeout to delete new game from database once it hits zero
+      console.log('Game time:', Number(new Date(game.time)), 'Current time (date.now):', Date.now(), 'Date.new:', Number(new Date()))
+      setTimeout(() => db.deleteGame(game), Number(new Date(game.time)) - Number(Date.now()));
       res.status(200).send('Game successfully created!');
     });
 };
