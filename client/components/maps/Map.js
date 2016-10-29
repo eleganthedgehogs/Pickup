@@ -99,8 +99,8 @@ class HomeMap extends Component {
           key={i}>
             <GameMarker 
               amount={game.playerIds.length} 
-              countdown={moment(game.time).fromNow()}
-              />
+              countdown={moment(game.time).from(this.state.timeNow)}
+            />
         </MapView.Marker>
       ))
     )
@@ -171,6 +171,9 @@ class HomeMap extends Component {
 
   render() {
     const iosIndex = this.state.segmentedIosIndex === 0 ? 1 : 0;
+    setInterval(() => {
+      this.setState({timeNow: new Date()});
+    }, 60000);
     return (
       <Container>
 
