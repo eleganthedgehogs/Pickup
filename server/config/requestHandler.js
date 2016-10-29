@@ -147,15 +147,18 @@ var joinGame = function(req, res) {
     
     db.findGame({court: game.court.name})
     .then(function(game) {
-      console.log(game);
-      game.addPlayer(userId);
+      if (game.playerIds.indexOf(userId) === -1) {
+        game.addPlayer(userId);
 
-      game.save(function(err) {
-        if (err) {
-          console.log('error saving updates to game!');
-        }
-      });
-      res.status(200).send('User added to game!');
+        game.save(function(err) {
+          if (err) {
+            console.log('error saving updates to game!');
+          }
+        });
+        res.status(200).send('User added to game!');    
+      } else {
+        res.status(404).send('User is already in the game!');
+      }
     })
     .catch(function(e) {
       console.log('Error finding game', e);
