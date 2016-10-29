@@ -1,4 +1,11 @@
 var db = require('./db.js');
+var _ = require('lodash');
+var config = require('./secret.js');
+var jwt = require('jsonwebtoken');
+
+var createToken = function(user) {
+  return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn: 60 * 60 * 5 });
+};
 
 // checks if the user exists in the database, then checks their password
 var postLogin = function(req, res) {
@@ -11,7 +18,16 @@ var postLogin = function(req, res) {
     currentUser.comparePasswords(user.password)
     .then(function(matched) {
       if (matched) {
-        res.status(200).send('login successful!');
+        var profile = {
+          username: currentUser.username,
+          id: currentUser._id
+        };
+
+        var token = createToken(profile);
+
+        res.status(201).send({
+          id_token: token
+        });
       }
     })
     .catch(function(error) {
@@ -36,8 +52,18 @@ var postSignup = function(req, res) {
     db.createUser(user)
     .then(function(user) {
       if (!user) { return res.status(404).send('Invalid user creation'); } 
+      var profile = {
+        username: user.username,
+        id: user._id
+      };
 
-      res.status(200).send('Successfully created!');
+      var token = createToken(profile);
+      console.log(token);
+      var decoded = jwt.decode(token);
+      console.log(decoded);
+      res.status(201).send({
+        id_token: token
+      });
     });
   });
 };
@@ -69,7 +95,6 @@ var getCourts = function(req, res) {
 //post a new game to the database
 var postGame = function(req, res) {
   var game = req.body;
-  console.log(req.body);
 
   db.createGame(game)
     .then(function(game) {
@@ -112,6 +137,35 @@ var getMain = function(req, res) {
   });
 };
 
+var joinGame = function(req, res) {
+  console.log('attempting to joinGame');
+  var game = req.body.game;
+  var token = req.body.token;
+
+  if (token) {
+    var userId = jwt.decode(token).id;
+    
+    db.findGame({court: game.court.name})
+    .then(function(game) {
+      console.log(game);
+      game.addPlayer(userId);
+
+      game.save(function(err) {
+        if (err) {
+          console.log('error saving updates to game!');
+        }
+      });
+      res.status(200).send('User added to game!');
+    })
+    .catch(function(e) {
+      console.log('Error finding game', e);
+    });
+  } else {
+    console.log('No token sent');
+    res.status(404).send('No token sent');
+  }
+};
+
 module.exports = {
   postLogin: postLogin,
   postSignup: postSignup,
@@ -119,6 +173,7 @@ module.exports = {
   getGames: getGames,
   getCourts: getCourts,
   postGame: postGame,
-  getMain: getMain
+  getMain: getMain,
+  joinGame: joinGame
 };
 

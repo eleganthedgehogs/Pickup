@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Content, InputGroup, Input, Button, View, Div } from 'native-base';
-import { Image, TouchableHighlight, Text } from 'react-native';
+import { Image, TouchableHighlight, Text, AsyncStorage, AlertIOS} from 'react-native';
 import styles from './styles';
 import helper from '../../utils/helper';
 
+var STORAGE_KEY = 'id_token';
 const background = require('../images/shadow.png');
 
 class LogIn extends Component {
@@ -16,6 +17,15 @@ class LogIn extends Component {
     };
   }
 
+  async _onValueChange(item, selectedValue) {
+    try {
+      await AsyncStorage.setItem(item, selectedValue);
+      console.log('token saved!');
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
+
   submitLogin() {
     var self = this;
     var user = {
@@ -24,8 +34,17 @@ class LogIn extends Component {
     };
 
     helper.postLogin(user)
-    .then(response => self.redirect('home') )
-    .catch( error => this.setState({ incorrectAttempt: true }) ); // move this line to .then success callback when server is running
+    .then(response => {
+      var token = response.data.id_token;
+      return self._onValueChange(STORAGE_KEY, token)
+      .then(function() {
+        console.log('redirecting');
+        self.redirect('home');
+      });
+    })
+    .catch(error => {
+      // AlertIOS.alert('Username or password is invalid! Please try again.');
+    });
   } 
 
   redirect(route) {
@@ -75,11 +94,6 @@ class LogIn extends Component {
               </View>
             </Image>
           </Content>
-          {
-            this.state.incorrectAttempt ? 
-            <Text style={styles.incorrect}>Username or password is invalid.</Text> :
-            <Text></Text>
-          }
         </View>
       </Container>
     );

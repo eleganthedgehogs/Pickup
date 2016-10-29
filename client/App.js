@@ -6,7 +6,7 @@ import SignUp from './components/signup/signup';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {view: 'home'}; // changed from 'login' to 'home' to default to home page (skip login)
+    this.state = {view: 'login'}; // changed from 'login' to 'home' to default to home page (skip login)
   }
 
   redirect(route) {
@@ -17,15 +17,15 @@ class App extends React.Component {
     if (this.state.view === 'login') {
       return (
         <LogIn redirect={this.redirect.bind(this)}/>
-      )      
+      );
     } else if (this.state.view === 'home') {
       return (
         <HomeMap redirect={this.redirect.bind(this)}/>
-      )
+      );
     } else if (this.state.view === 'signup') {
       return (
         <SignUp redirect={this.redirect.bind(this)} />
-      )  
+      );
     }
   }
 }

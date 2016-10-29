@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, AsyncStorage } from 'react-native';
 import { Container } from 'native-base';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import helper from '../../utils/helper';
-import moment from 'moment'
+import moment from 'moment';
 
 import GameMarker from '../GameMarker/GameMarker';
 import CourtMarker from '../CourtMarker/CourtMarker';
@@ -24,6 +24,7 @@ const longitude = -122.4324;
 const latitudeDelta = 0.0922;
 const longitudeDelta = latitudeDelta * aspectRatio;
 const initialRegion = {latitude, longitude, latitudeDelta, longitudeDelta};
+var STORAGE_KEY = 'id_token';
 
 class HomeMap extends Component {
   constructor(props) {
@@ -130,12 +131,44 @@ class HomeMap extends Component {
    )
   }
 
+  async _getToken(game) {
+    try {
+      let token = await AsyncStorage.getItem(STORAGE_KEY);
+      helper.joinGame(game, token)
+    } catch (error) {
+      console.log('AsyncStorage error getting token: ' + error.message);
+    }
+  }
+
   renderJoinGame() {
+    // try {
+    //   console.log('ATTEMPTING TO JOIN GAME');
+    //   var token = await AsyncStorage.getItem(STORAGE_KEY);
+
+    //   return (
+    //   <JoinGame
+    //     game={this.state.selectedGame} 
+    //     exitJoinGame={ () => this.setState({joiningGame: false}) }
+    //     joinGame={ () => helper.joinGame(this.state.selectedGame, token)}/>
+    //   )
+    // } catch (error) {
+    //   console.log('error retrieving token', error);
+    // }
+
     return (
       <JoinGame
         game={this.state.selectedGame} 
         exitJoinGame={ () => this.setState({joiningGame: false}) }
-        joinGame={ () => helper.joinGame(this.state.selectedGame)}/>
+        joinGame={ () => {
+          this._getToken(this.state.selectedGame)
+          // .then(function(token) {
+          //   helper.joinGame(this.state.selectedGame, token)
+          // })
+          // .catch(function(error) {
+          //   console.log('Error retrieving token from promise');
+          // })
+        }}
+      />
     )
   }
 

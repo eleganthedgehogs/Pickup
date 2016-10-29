@@ -8,7 +8,7 @@ var GameSchema = new mongoose.Schema({
 });
 
 GameSchema.methods.addPlayer = function(player) {
-  var players = this.players;
+  var players = this.playerIds;
   players.push(player);
 };
 

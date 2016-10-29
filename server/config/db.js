@@ -33,24 +33,24 @@ courtData.forEach(function(court) {
   });
 });
 
-//saves initial game data into the database
-gameData.forEach(function(game) {
-  createGame(game)
-  .then(function(court) {
-  })
-  .catch(function(e) {
-    console.log('Game already exists');
-  });
-});
+// saves initial game data into the database
+// gameData.forEach(function(game) {
+//   createGame(game)
+//   .then(function(court) {
+//   })
+//   .catch(function(e) {
+//     console.log('Game already exists');
+//   });
+// });
 
 //saves initial user data into the database
-createUser({ email: 'eleganthedgehogs@hr.com', password: 'poop' })
-.then(function(user) {
-  console.log(user);
-})
-.catch(function(e) {
-  console.log('User already exists');
-});
+// createUser({ email: 'eleganthedgehogs@hr.com', password: 'poop' })
+// .then(function(user) {
+//   console.log(user);
+// })
+// .catch(function(e) {
+//   console.log('User already exists');
+// });
 
 /************************************************************/
 

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    marginTop: 40,
+    marginTop: 0,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: joinGameBtnColor
