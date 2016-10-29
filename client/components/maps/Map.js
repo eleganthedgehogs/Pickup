@@ -41,6 +41,7 @@ class HomeMap extends Component {
       selectedGameTime: new Date(),
       segmentedIosIndex: 0
     };
+
   }
 
 
@@ -103,16 +104,13 @@ class HomeMap extends Component {
   }
 
   handleSubmitGame() {
-    this.setState({creatingGame: false, mode: 'Current Games', segmentedIosIndex: 0});
     helper.getMainData()
-          .then( response => {
-            this.setState({games: response.data.games, courts: response.data.courts}, () => {
-              this.renderGames();
-              console.log('Map.js refs:', this.refs);
-              this.refs.headData.state.resetRender();
-            });
-        })
-          .catch( error => console.log('this is the error') );
+      .then( response => {
+        this.setState({segmentedIosIndex: 0, games: response.data.games, courts: response.data.courts, creatingGame: false, mode: 'Current Games'}, () => {
+          this.renderGames();
+        });
+      })
+      .catch( error => console.log('this is the error:', error) );
   }
 
   renderCreateGame() {
@@ -120,7 +118,7 @@ class HomeMap extends Component {
       <CreateGame ref="createGameData"
         onGameTypeChange= {this.updateGameType.bind(this)}
         onTimeDataChange= {this.updateGameTime.bind(this)}
-        exitCreateGame={ () => this.setState({creatingGame: false, mode: 'Create a Game', segmentedIosIndex: 0})}
+        exitCreateGame={ () => this.setState({creatingGame: false, mode: 'Create a Game'})}
         submitGame={() => this.handleSubmitGame()}
         postGame={ () => helper.postNewGame({
           type: this.state.selectedGameType,
@@ -142,6 +140,7 @@ class HomeMap extends Component {
   }
 
   render() {
+    const iosIndex = this.state.segmentedIosIndex === 0 ? 1 : 0;
     return (
       <Container>
 
@@ -151,7 +150,7 @@ class HomeMap extends Component {
             style={styles.map}
             initialRegion = {initialRegion}>
 
-            <Head ref="headData" switchMode={ mode => this.setState({mode: mode})}/>
+            <Head ref="headData" switchMode={ mode => this.setState({mode: mode, segmentedIosIndex: iosIndex})} index={this.state.segmentedIosIndex}/>
 
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
           </MapView>
