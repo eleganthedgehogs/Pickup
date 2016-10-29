@@ -4,6 +4,7 @@ import { Container } from 'native-base';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import helper from '../../utils/helper';
+import moment from 'moment'
 
 import GameMarker from '../GameMarker/GameMarker';
 import CourtMarker from '../CourtMarker/CourtMarker';
@@ -13,8 +14,8 @@ import Head from '../header/header';
 import CreateGame from '../CreateGame/CreateGame';
 import JoinGame from '../JoinGame/JoinGame';
 // might need to import both Pickers to obtain the selected gametype and start time values
-import GamePicker from '../GamePicker/GamePicker';
-import TimePicker from '../TimePicker/TimePicker';
+// import GamePicker from '../GamePicker/GamePicker';
+// import TimePicker from '../TimePicker/TimePicker';
 
 const { width, height } = Dimensions.get('window');
 const aspectRatio = width / height;
@@ -37,7 +38,8 @@ class HomeMap extends Component {
       creatingGame: false,
       joiningGame: false,
       selectedGameType: '5 on 5',
-      selectedGameTime: new Date()
+      selectedGameTime: new Date(),
+      segmentedIosIndex: 0
     };
   }
 
@@ -60,6 +62,12 @@ class HomeMap extends Component {
           .catch( error => console.log('this is the error') );
   }
 
+  // componentWilUpdate() {
+  //   // helper.getMainData()
+  //   //       .then( response => this.setState({games: response.data.games, courts: response.data.courts}))
+  //   //       .catch( error => console.log('this is the error') );
+  // }
+
   renderGames() {
     let self = this;
     return (
@@ -70,7 +78,10 @@ class HomeMap extends Component {
           key={i}>
             <GameMarker 
               amount={game.playerIds.length} 
-              countdown={game.time}/>
+              countdown={moment(game.time).fromNow()}
+              // countdown={game.time}
+
+              />
         </MapView.Marker>
       ))
     )
@@ -91,12 +102,26 @@ class HomeMap extends Component {
     )
   }
 
+  handleSubmitGame() {
+    this.setState({creatingGame: false, mode: 'Current Games', segmentedIosIndex: 0});
+    helper.getMainData()
+          .then( response => {
+            this.setState({games: response.data.games, courts: response.data.courts}, () => {
+              this.renderGames();
+              console.log('Map.js refs:', this.refs);
+              this.refs.headData.state.resetRender();
+            });
+        })
+          .catch( error => console.log('this is the error') );
+  }
+
   renderCreateGame() {
     return (
       <CreateGame ref="createGameData"
         onGameTypeChange= {this.updateGameType.bind(this)}
         onTimeDataChange= {this.updateGameTime.bind(this)}
-        exitCreateGame={ () => this.setState({creatingGame: false}) }
+        exitCreateGame={ () => this.setState({creatingGame: false, mode: 'Create a Game', segmentedIosIndex: 0})}
+        submitGame={() => this.handleSubmitGame()}
         postGame={ () => helper.postNewGame({
           type: this.state.selectedGameType,
           playerIds: ['12345'],
@@ -126,7 +151,7 @@ class HomeMap extends Component {
             style={styles.map}
             initialRegion = {initialRegion}>
 
-            <Head switchMode={ mode => this.setState({mode: mode})}/>
+            <Head ref="headData" switchMode={ mode => this.setState({mode: mode})}/>
 
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
           </MapView>
