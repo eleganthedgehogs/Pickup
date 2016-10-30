@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Container, Content, InputGroup, Input, Button, View, Div } from 'native-base';
+import { Container, Content, InputGroup, Input, Button, View, Div, Icon } from 'native-base';
 import { Image, TouchableHighlight, Text, AsyncStorage, AlertIOS } from 'react-native';
 import styles from './styles';
 import helper from '../../utils/helper';
 
-var STORAGE_KEY = 'id_token';
+let STORAGE_KEY = 'id_token';
 const background = require('../images/shadow.png');
 
 class LogIn extends Component {
@@ -27,15 +27,15 @@ class LogIn extends Component {
   }
 
   submitLogin() {
-    var self = this;
-    var user = {
+    let self = this;
+    let user = {
       email: this.state.email,
       password: this.state.password
     };
 
     helper.postLogin(user)
     .then(response => {
-      var token = response.data.id_token;
+      let token = response.data.id_token;
       return self._onValueChange(STORAGE_KEY, token)
       .then(function() {
         console.log('redirecting');
@@ -63,7 +63,7 @@ class LogIn extends Component {
             <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
                 <InputGroup style={styles.input}>
-                  
+                  <Icon name='ios-mail' style={{color:'#00C497'}} />
                   <Input 
                     placeholder="EMAIL" 
                     onChangeText={ email => this.setState({ email }) }
@@ -72,7 +72,7 @@ class LogIn extends Component {
                   
                 </InputGroup>
                 <InputGroup style={styles.input}>
-                  
+                  <Icon name='ios-lock' style={{color:'#00C497'}} />
                   <Input
                     placeholder="PASSWORD" 
                     onChangeText={ password => this.setState({ password }) }
