@@ -13,9 +13,6 @@ import Foot from '../footer/Footer';
 import Head from '../header/header';
 import CreateGame from '../CreateGame/CreateGame';
 import JoinGame from '../JoinGame/JoinGame';
-// might need to import both Pickers to obtain the selected gametype and start time values
-// import GamePicker from '../GamePicker/GamePicker';
-// import TimePicker from '../TimePicker/TimePicker';
 
 const { width, height } = Dimensions.get('window');
 const aspectRatio = width / height;
@@ -40,11 +37,11 @@ class HomeMap extends Component {
       joiningGame: false,
       selectedGameType: '5 on 5',
       selectedGameTime: new Date(),
-      segmentedIosIndex: 0
+      segmentedIosIndex: 0,
+      timeNow: new Date()
     };
 
   }
-
 
   updateGameType(newGameType) {
     this.setState({
@@ -59,21 +56,16 @@ class HomeMap extends Component {
   }
 
   componentWillMount() {
+    setTimeout(() => this.setState({timeNow: new Date()}), 60000);
     helper.getMainData()
           .then( response => this.setState({games: response.data.games, courts: response.data.courts}))
           .catch( error => console.log('this is the error') );
   }
 
-  // componentWilUpdate() {
-  //   // helper.getMainData()
-  //   //       .then( response => this.setState({games: response.data.games, courts: response.data.courts}))
-  //   //       .catch( error => console.log('this is the error') );
-  // }
-
   renderGames() {
     let self = this;
     return (
-      this.state.games.map((game, i) => (
+      self.state.games.map((game, i) => (
         <MapView.Marker 
           onPress={ event => self.setState({selectedGame: game}) }
           coordinate={{latitude: game.court.latitude, longitude: game.court.longitude}} 
@@ -81,8 +73,6 @@ class HomeMap extends Component {
             <GameMarker 
               amount={game.playerIds.length} 
               countdown={moment(game.time).fromNow()}
-              // countdown={game.time}
-
               />
         </MapView.Marker>
       ))
@@ -115,19 +105,31 @@ class HomeMap extends Component {
   }
 
   renderCreateGame() {
+    var self = this;
     return (
       <CreateGame ref="createGameData"
         onGameTypeChange= {this.updateGameType.bind(this)}
         onTimeDataChange= {this.updateGameTime.bind(this)}
         exitCreateGame={ () => this.setState({creatingGame: false, mode: 'Create a Game'})}
         submitGame={() => this.handleSubmitGame()}
-        postGame={ () => helper.postNewGame({
+        postGame={ () => {
+          var newGame = {
           type: this.state.selectedGameType,
           playerIds: ['12345'],
           time: this.state.selectedGameTime,
           court: this.state.selectedCourt.name
-          })
-        }/>
+          };
+          helper.postNewGame(newGame);
+          setTimeout(() => {
+            helper.getMainData()
+              .then(response => {
+                this.setState({games: response.data.games, courts: response.data.courts}, () => {
+                  this.renderGames();
+                });
+              })
+              .catch(error => console.log('this is the error:', error));
+          }, Number(new Date(this.state.selectedGameTime)) + 100 - Number(Date.now()));
+        }}/>
    )
   }
 
