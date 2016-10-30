@@ -34,5 +34,17 @@ module.exports = [
     latitude: 37.7760,
     longitude: -122.4274,
     imageUrl: 'http://cdn.sfstation.com/wp-content/uploads/2015/07/alamo.jpg'
+  },
+  {
+    name: 'Sunset Center',
+    latitude: 37.7571,
+    longitude: -122.4866,
+    imageUrl: 'http://cdn.sfstation.com/wp-content/uploads/2015/07/sunset1.jpg'
+  },
+  {
+    name: 'Panhandle Courts',
+    latitude: 37.7571,
+    longitude: -122.4866,
+    imageUrl: 'http://cdn.sfstation.com/wp-content/uploads/2015/07/sunset1.jpg'
   }
 ];
