@@ -1,6 +1,9 @@
 import axios from 'axios';
 import Promise from 'bluebird';
 
+//replace 'http://localhost:8000' with 'https://baller-server.herokuapp.com' to use the hosted Heroku server
+
+
 let getMainData = function() {
   return axios.get('http://localhost:8000/api/main');
 };

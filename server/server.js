@@ -9,6 +9,9 @@ var app = express();
 /***************************DATABASE*****************************/
 mongoose.connect('mongodb://localhost/baller');
 
+// uncomment if you want to use the hosted mLab database
+// mongoose.connect('mongodb://baller:baller@ds059722.mlab.com:59722/baller-db');
+
 /**************************MIDDLEWARE****************************/
 middleware(app);
 
