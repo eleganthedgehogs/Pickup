@@ -5,7 +5,7 @@ import styles from './styles';
 import helper from '../../utils/helper';
 
 var STORAGE_KEY = 'id_token';
-const background = require('../images/shadow.png');
+const background = require('../images/basketball_rim.jpg');
 
 class SignUp extends Component {
   constructor(props) {
