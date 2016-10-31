@@ -21,7 +21,7 @@ const longitude = -122.4324;
 const latitudeDelta = 0.0922;
 const longitudeDelta = latitudeDelta * aspectRatio;
 const initialRegion = {latitude, longitude, latitudeDelta, longitudeDelta};
-var STORAGE_KEY = 'id_token';
+const STORAGE_KEY = 'id_token';
 
 class HomeMap extends Component {
   constructor(props) {
@@ -55,11 +55,20 @@ class HomeMap extends Component {
     })
   }
 
-  componentWillMount() {
-    setInterval(() => this.setState({timeNow: new Date()}), 60000);
+
+  updateGameData() {
     helper.getMainData()
-          .then( response => this.setState({games: response.data.games, courts: response.data.courts}))
-          .catch( error => console.log('this is the error') );
+      .then(response => this.setState({games: response.data.games, courts: response.data.courts}))
+      .catch(error => console.log('this is the error:', error));
+  }
+
+  componentWillMount() {
+    this.updateGameData();
+
+    setInterval(() => {
+      this.setState({timeNow: new Date()});
+      this.updateGameData();
+    }, 15000);
   }
 
   renderGames() {
@@ -87,50 +96,34 @@ class HomeMap extends Component {
           onPress={ event => self.setState({selectedCourt: court}) }
           coordinate={{latitude: court.latitude, longitude: court.longitude}} 
           key={i}>
-            <CourtMarker 
-              name={court.name}/>
+            <CourtMarker name={court.name}/>
         </MapView.Marker>
       ))
     )
   }
 
   handleSubmitGame() {
-    helper.getMainData()
-      .then(response => {
-        this.setState({segmentedIosIndex: 0, games: response.data.games, courts: response.data.courts, creatingGame: false, mode: 'Current Games'}, () => {
-          this.renderGames();
-        });
-      })
-      .catch(error => console.log('this is the error:', error));
+    helper.postNewGame({
+      type: this.state.selectedGameType,
+      playerIds: ['12345'],
+      time: this.state.selectedGameTime,
+      court: this.state.selectedCourt.name
+    })
+
+    .then(res => {
+      this.updateGameData();
+      this.setState({segmentedIosIndex: 0, creatingGame: false, mode: 'Current Games'})
+    })
   }
 
   renderCreateGame() {
-    var self = this;
     return (
       <CreateGame ref="createGameData"
         onGameTypeChange= {this.updateGameType.bind(this)}
         onTimeDataChange= {this.updateGameTime.bind(this)}
         exitCreateGame={ () => this.setState({creatingGame: false, mode: 'Create a Game'})}
-        submitGame={() => this.handleSubmitGame()}
-        postGame={ () => {
-          var newGame = {
-          type: this.state.selectedGameType,
-          playerIds: ['12345'],
-          time: this.state.selectedGameTime,
-          court: this.state.selectedCourt.name
-          };
-          helper.postNewGame(newGame);
-          setTimeout(() => {
-            helper.getMainData()
-              .then(response => {
-                this.setState({games: response.data.games, courts: response.data.courts}, () => {
-                  this.renderGames();
-                });
-              })
-              .catch(error => console.log('this is the error:', error));
-          }, Number(new Date(this.state.selectedGameTime)) + 100 - Number(Date.now()));
-        }}/>
-   )
+        submitGame={() => this.handleSubmitGame()} />
+    )
   }
 
   //grabs the json token stored in the app's AsyncStorage
@@ -138,8 +131,8 @@ class HomeMap extends Component {
     try {
       let token = await AsyncStorage.getItem(STORAGE_KEY);
       helper.joinGame(game, token)
-      .then(response => AlertIOS.alert('You have been added to the game. BALL OUT!'))
-      .catch(error => AlertIOS.alert('You are already a part of this game. BALL OUT!'))
+        .then(response => AlertIOS.alert('You have been added to the game. BALL OUT!'))
+        .catch(error => AlertIOS.alert('You are already a part of this game. BALL OUT!'))
     } catch (error) {
       console.log('AsyncStorage error getting token: ' + error.message);
     }
@@ -150,7 +143,10 @@ class HomeMap extends Component {
       <JoinGame
         game={this.state.selectedGame} 
         exitJoinGame={ () => this.setState({joiningGame: false}) }
-        joinGame={ () => { this._getToken(this.state.selectedGame) }}
+        joinGame={ () => { 
+          this._getToken(this.state.selectedGame);
+          this.setState({joiningGame: false});
+        }}
       />
     )
   }
@@ -166,7 +162,10 @@ class HomeMap extends Component {
             style={styles.map}
             initialRegion = {initialRegion}>
 
-            <Head ref="headData" switchMode={ mode => this.setState({mode: mode, segmentedIosIndex: iosIndex})} index={this.state.segmentedIosIndex}/>
+            <Head 
+              ref="headData" 
+              switchMode={ mode => this.setState({mode: mode, segmentedIosIndex: iosIndex})} 
+              index={this.state.segmentedIosIndex}/>
 
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
           </MapView>
