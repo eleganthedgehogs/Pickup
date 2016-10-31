@@ -5,14 +5,12 @@ var Promise = require('bluebird');
 var User = require('../models/userModel.js');
 var findUser = Promise.promisify(User.findOne, User);
 var createUser = Promise.promisify(User.create, User);
+var removeUser = Promise.promisify(User.remove, User);
 var findAllUsers = Promise.promisify(User.find, User);
 
 var Game = require('../models/gameModel.js');
 var findGame = Promise.promisify(Game.findOne, Game);
 var createGame = Promise.promisify(Game.create, Game);
-// var deleteGame = function(Game) {
-//   Game.remove();
-// }
 var deleteGame = Promise.promisify(Game.remove, Game);
 var findAllGames = Promise.promisify(Game.find, Game);
 
@@ -61,6 +59,7 @@ courtData.forEach(function(court) {
 module.exports = {
   findUser: findUser,
   createUser: createUser,
+  removeUser: removeUser,
   findAllUsers: findAllUsers,
   findGame: findGame,
   createGame: createGame,
