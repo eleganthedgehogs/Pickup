@@ -56,7 +56,7 @@ class HomeMap extends Component {
   }
 
   componentWillMount() {
-    setTimeout(() => this.setState({timeNow: new Date()}), 60000);
+    setInterval(() => this.setState({timeNow: new Date()}), 60000);
     helper.getMainData()
           .then( response => this.setState({games: response.data.games, courts: response.data.courts}))
           .catch( error => console.log('this is the error') );
