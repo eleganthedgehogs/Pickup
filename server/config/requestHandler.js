@@ -177,6 +177,8 @@ var myGames = function(req, res) {
   var game = req.body.game;
   var token = req.body.token;
 
+  console.log('token', token);
+
   if (token) {
     var userId = jwt.decode(token).id;
 

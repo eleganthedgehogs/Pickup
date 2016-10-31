@@ -57,20 +57,29 @@ class HomeMap extends Component {
     })
   }
 
+  async _getMyGames() {
+    try {
+      let token = await AsyncStorage.getItem(STORAGE_KEY);
+      helper.getMyGames(token)
+            .then(res => console.log('my games', res.data))
+            .catch(err => console.log('getMyGames:', err))
+    } catch (error) {
+      console.log('AsyncStorage error getting token: ' + error.message);
+    }
+  }
 
   updateGameData() {
     helper.getMainData()
       .then(response => this.setState({games: response.data.games, courts: response.data.courts}))
       .catch(error => console.log('this is the error:', error));
+
+    this._getMyGames()
+    
   }
 
   componentWillMount() {
     this.updateGameData();
     setTimeout(() => {
-
-      // setInterval(() => {
-      //   console.log('Interval running at', (new Date()));
-      //   this.setState({timeNow: new Date()})}, 60000);
 
       setInterval(() => {
         console.log('Interval running at', (new Date()));
@@ -81,15 +90,6 @@ class HomeMap extends Component {
         console.log('First timeout ran!');
     }, (new Date(Math.ceil(new Date().getTime() / 15000) * 15000)) - (new Date));
   }
-
-  // componentWillMount() {
-  //   this.updateGameData();
-
-  //   setInterval(() => {
-  //     this.setState({timeNow: new Date()});
-  //     this.updateGameData();
-  //   }, 15000);
-  // }
 
   renderGames() {
     let self = this;
