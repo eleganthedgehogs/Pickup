@@ -94,18 +94,34 @@ var getCourts = function(req, res) {
 
 //post a new game to the database
 var postGame = function(req, res) {
-  var game = req.body;
+  var token = req.body.token;
+  var game = req.body.game;
+  if (token) {
+    var userId = jwt.decode(token).id;
 
-  db.createGame(game)
-    .then(function(game) {
-      if (!game) { return res.status(404).send('Invalid game creation');
-       } 
+    db.createGame(game)
+      .then(function(game) {
+        if (!game) { return res.status(404).send('Invalid game creation');
+         } 
 
-      // set Timeout to delete new game from database once it hits zero
-      console.log('Game time:', Number(new Date(game.time)), 'Current time (date.now):', Date.now(), 'Date.new:', Number(new Date()))
-      setTimeout(() => db.deleteGame(game), Number(new Date(game.time)) - Number(Date.now()));
-      res.status(200).send('Game successfully created!');
-    });
+         game.addPlayer(userId);
+
+         game.save(function(err) {
+          if (err) {
+            console.log('error saving updates to game!');
+          }
+
+          console.log('Game time:', Number(new Date(game.time)), 'Current time (date.now):', Date.now(), 'Date.new:', Number(new Date()))
+          setTimeout(() => db.deleteGame(game), Number(new Date(game.time)) - Number(Date.now()));
+          res.status(200).send('Game successfully created!');  
+        });
+         
+        // set Timeout to delete new game from database once it hits zero
+        // res.status(200).send('Game successfully created!');
+      });
+  } else {
+    res.status(401).end();
+  }
 };
 
 //grabs all courts and games stored in the database
@@ -169,7 +185,7 @@ var joinGame = function(req, res) {
     });
   } else {
     console.log('No token sent');
-    res.status(404).send('No token sent');
+    res.status(401).send('No token sent');
   }
 };
 
@@ -181,20 +197,19 @@ var myGames = function(req, res) {
 
   if (token) {
     var userId = jwt.decode(token).id;
-
     db.findAllGames({})
     .then(function(games) {
       var userGames = games.filter(function(game) {
         return game.playerIds.indexOf(userId) !== -1;
       });
-
+      console.log(userGames);
       res.send({ games: userGames });
     })
     .catch(function(e) {
       console.log('Error finding all games that user is a part of');
     });
   } else {
-    res.status(404).send('No token sent');
+    res.status(401).send('No token sent');
   }
 };
 

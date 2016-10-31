@@ -20,8 +20,8 @@ class CreateGame extends Component {
 		return (
 			<View style={styles.container}>			
 			 <View style={styles.innerContainer}>
-			 	<Title style={styles.title}>Game Type</Title>
-			 	<Hr lineColor='rgba(0, 0, 0, .5)'/>
+			  <Title style={styles.title}>Game Type</Title>
+			  <Hr lineColor='rgba(0, 0, 0, .5)'/>
 			  <GamePicker ref="gamePickerData" onGameTypeChange= {this.props.onGameTypeChange}/>
 			  <Title style={styles.title}>Start Time</Title>
 			  <Hr lineColor='rgba(0, 0, 0, .5)'/>

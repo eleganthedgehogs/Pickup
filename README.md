@@ -22,6 +22,14 @@
 
 > Some usage instructions
 
+If map markers are flickering, go into the react-native-maps client/node_modules/react-native-maps/components/decorateMapComponent.js and
+**************************************************************************
+CHANGE LINE 51 FROM
+'components.default = getDefaultComponent();' 
+TO 
+'if (!components.default) components.default = getDefaultComponent();'
+**************************************************************************
+
 ## Requirements
 
 - Node 0.10.x
@@ -50,3 +58,5 @@ View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+

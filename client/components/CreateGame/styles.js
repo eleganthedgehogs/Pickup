@@ -1,6 +1,6 @@
 import React, { StyleSheet, Dimensions } from 'react-native';
 
-const createGameBtnColor = '#5DBCD2';
+const createGameBtnColor = '#DB343F';
 const backgroundColor = 'rgba(255, 255, 255, 1)'
 
 const styles = StyleSheet.create({
@@ -23,11 +23,12 @@ const styles = StyleSheet.create({
   title: {
     color: 'black',
     marginBottom: 0,
-    marginTop: 40
+    marginTop: 30,
+    marginBottom: 10
   },
   button: {
     padding: 10,
-    marginTop: 0,
+    marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: createGameBtnColor

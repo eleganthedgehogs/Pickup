@@ -1,5 +1,5 @@
 import React, { StyleSheet } from 'react-native';
-const markerColor = '#5DBCD2';
+const markerColor = '#DB343F';
 
 const styles = StyleSheet.create({
   container: {

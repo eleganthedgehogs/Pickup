@@ -40,28 +40,37 @@ class HomeMap extends Component {
       selectedGameTime: new Date(),
       segmentedIosIndex: 0,
       timeNow: new Date(),
-      myGame: null // need to refactor this to get from DB for specific user
+      renderingGameDetails: false,
+      myGame: null,
+      token: null 
     };
-
   }
 
   updateGameType(newGameType) {
-    this.setState({
-      selectedGameType: newGameType
-    })
+    this.setState( {selectedGameType: newGameType} );
   }
 
   updateGameTime(newTimeData) {
-    this.setState({
-      selectedGameTime: newTimeData
-    })
+    this.setState( {selectedGameTime: newTimeData} );
   }
 
   async _getMyGames() {
+    let self = this;
+
     try {
       let token = await AsyncStorage.getItem(STORAGE_KEY);
+      this.setState( {token: token} );
       helper.getMyGames(token)
-            .then(res => console.log('my games', res.data))
+            .then( res => {
+              if (res.data.games[0]) { 
+                self.setState({renderingGameDetails: true, myGame: res.data.games[0]} );
+              } else { 
+                self.setState({renderingGameDetails: false}); 
+                console.log('setting rendering game details to false')
+              }
+              console.log(self.state.renderingGameDetails, self.state.myGame)
+
+            })
             .catch(err => console.log('getMyGames:', err))
     } catch (error) {
       console.log('AsyncStorage error getting token: ' + error.message);
@@ -73,21 +82,18 @@ class HomeMap extends Component {
       .then(response => this.setState({games: response.data.games, courts: response.data.courts}))
       .catch(error => console.log('this is the error:', error));
 
-    this._getMyGames()
-    
+    this._getMyGames();
   }
 
   componentWillMount() {
     this.updateGameData();
-    setTimeout(() => {
 
+    setTimeout(() => {
       setInterval(() => {
         console.log('Interval running at', (new Date()));
         this.setState({timeNow: new Date()});
         this.updateGameData();
       }, 15000);
-
-        console.log('First timeout ran!');
     }, (new Date(Math.ceil(new Date().getTime() / 15000) * 15000)) - (new Date));
   }
 
@@ -125,18 +131,17 @@ class HomeMap extends Component {
   handleSubmitGame() {
     let game = {
       type: this.state.selectedGameType,
-      playerIds: ['12345'],
+      playerIds: [],
       time: this.state.selectedGameTime,
       court: this.state.selectedCourt.name
     };
+    let token = this.state.token;
 
-    helper.postNewGame(game)
+    helper.postNewGame(game, token)
     .then(res => {
       this.updateGameData();
       this.setState({segmentedIosIndex: 0, creatingGame: false, mode: 'Current Games'})
     })
-
-    this.setState({myGame: game}); // delete this later once we retrieve game from DB
   }
 
   renderCreateGame() {
@@ -150,18 +155,10 @@ class HomeMap extends Component {
   }
 
   //grabs the json token stored in the app's AsyncStorage
-  async _getToken(game) {
-    try {
-      let token = await AsyncStorage.getItem(STORAGE_KEY);
-      helper.joinGame(game, token)
-        .then(response => {
-          AlertIOS.alert('You have been added to the game. BALL OUT!');
-          this.setState({myGame: game}); // remove later when synched with DB
-        })
-        .catch(error => AlertIOS.alert('You are already a part of this game. BALL OUT!'))
-    } catch (error) {
-      console.log('AsyncStorage error getting token: ' + error.message);
-    }
+  joinGame(game) {
+    helper.joinGame(game, this.state.token)
+      .then(response => AlertIOS.alert('You have been added to the game. BALL OUT!'))
+      .catch(error => AlertIOS.alert('You are already a part of this game. BALL OUT!'))
   }
 
   renderJoinGame() {
@@ -170,7 +167,7 @@ class HomeMap extends Component {
         game={this.state.selectedGame} 
         exitJoinGame={ () => this.setState({joiningGame: false}) }
         joinGame={ () => { 
-          this._getToken(this.state.selectedGame);
+          this.joinGame(this.state.selectedGame);
           this.setState({joiningGame: false});
         }}
       />
@@ -179,7 +176,7 @@ class HomeMap extends Component {
 
   renderMyGameDetails() {
     return (
-      <MyGameDetails game={this.state.myGame} />
+      <MyGameDetails game={this.state.myGame} shouldRender={this.state.renderingGameDetails} />
     )
   }
 
@@ -198,7 +195,6 @@ class HomeMap extends Component {
     const iosIndex = this.state.segmentedIosIndex === 0 ? 1 : 0;
     return (
       <Container>
-
         <View style={styles.container}>
           <MapView
             provider={this.props.provider}
@@ -210,7 +206,7 @@ class HomeMap extends Component {
               switchMode={ mode => this.setState({mode: mode, segmentedIosIndex: iosIndex})} 
               index={this.state.segmentedIosIndex}/>
 
-            {this.state.myGame && this.renderMyGameDetails()}  
+            {this.state.renderingGameDetails && this.renderMyGameDetails() }  
 
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
           </MapView>
