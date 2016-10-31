@@ -16,9 +16,13 @@ let postSignUp = function(user) {
   return axios.post('http://localhost:8000/api/signup', user);
 };
 
-let postNewGame = function(game) {
+let postNewGame = function(game, token) {
   console.log('need to post game here', game);
-  return axios.post('http://localhost:8000/api/games', game);
+  let body = {
+    game: game,
+    token: token
+  };
+  return axios.post('http://localhost:8000/api/games', body);
 };
 
 let joinGame = function(game, token) {

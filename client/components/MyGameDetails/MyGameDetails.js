@@ -6,13 +6,23 @@ import moment from 'moment'
 
 
 const MyGameDetails = (props) => {
-	return (
-		<View style={styles.viewContainer}>
-		 <View>
-		   <Title style={styles.title}>You have joined a game that starts in {moment(props.game.time).fromNow()}</Title>
-		 </View>
-		</View>
-	)
+	if (props.shouldRender) {
+		return (
+			<View style={styles.viewContainer}>
+			 <View>
+			   <Title style={styles.title}>Your game starts {moment(props.game.time).fromNow()}</Title>
+			 </View>
+			</View>
+		)
+	} else {
+		return (
+			<View style={styles.viewContainer}>
+			 <View>
+			   <Title style={styles.title}>Your game has started. Have Fun!!</Title>
+			 </View>
+			</View>
+		)
+	}
 }
 
 export default MyGameDetails;

@@ -1,6 +1,6 @@
 import React, { StyleSheet, Dimensions } from 'react-native';
 
-const joinGameBtnColor = '#20DA9B';
+const joinGameBtnColor = '#DB343F';
 const backgroundColor = 'rgba(255, 255, 255, 1)';
 
 const styles = StyleSheet.create({
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     shadowColor: 'grey',
     shadowOpacity: .8,
     shadowRadius: 2,
-    shadowOffset: {height: 1, width: 0}
+    shadowOffset: {height: 0, width: 0}
   },
   innerContainer: {
     flex: 1
@@ -25,9 +25,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10
   },
+  mainTitle: {
+    color: 'black',
+    marginBottom: 10,
+    marginTop: 10,
+    fontSize: 30,
+    lineHeight: 30,
+    marginTop: 20
+  },
   button: {
     padding: 10,
-    marginTop: 0,
+    marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: joinGameBtnColor
@@ -47,14 +55,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 30,
     color: 'grey',
-    marginTop: 20,
-    marginBottom: 20
+    marginTop: 10,
+    marginBottom: 5
   },
   image: {
     width: 380, 
     height: 200,
     marginLeft: 7,
-    marginTop: 10
+    marginTop: 0,
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  thumbnail: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 20,
+    marginBottom: 20
+  },
+  wrapper: {
+    // flex: 1,
+    flexWrap: 'wrap', 
+    alignItems: 'center',
+    flexDirection:'row'
   }
 
 });
