@@ -1,24 +1,29 @@
 import React, { StyleSheet, Dimensions } from 'react-native';
-const deviceHeight = Dimensions.get('window').height;
+
 const joinGameBtnColor = '#20DA9B';
-const backgroundColor = 'rgba(0, 0, 0, 0.93)';
+const backgroundColor = 'rgba(255, 255, 255, 1)';
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: backgroundColor
+    top: 80,
+    bottom: 10,
+    left: 10,
+    right: 10,
+    backgroundColor: backgroundColor,
+    borderRadius: 10,
+    shadowColor: 'grey',
+    shadowOpacity: .8,
+    shadowRadius: 2,
+    shadowOffset: {height: 1, width: 0}
   },
   innerContainer: {
-    flex: 1,
-    marginTop: deviceHeight / 17
+    flex: 1
   },
   title: {
-    color: 'white',
-    marginBottom: 10
+    color: 'black',
+    marginBottom: 10,
+    marginTop: 10
   },
   button: {
     padding: 10,
@@ -29,20 +34,27 @@ const styles = StyleSheet.create({
   },
   x: {
     position: 'absolute',
-    top: 20,
-    right: 10,
+    top: 10,
+    right: 10
   },
   xtext: {
-    color: 'white',
-    fontSize: 25,
-    lineHeight: 25
+    color: 'black',
+    fontSize: 24,
+    lineHeight: 24
   },
   stats: {
-    fontSize: 60,
-    lineHeight: 60,
-    color: 'white',
-    marginTop: 40,
-    marginBottom: 30
+    fontSize: 30,
+    fontWeight: 'bold',
+    lineHeight: 30,
+    color: 'grey',
+    marginTop: 20,
+    marginBottom: 20
+  },
+  image: {
+    width: 380, 
+    height: 200,
+    marginLeft: 7,
+    marginTop: 10
   }
 
 });

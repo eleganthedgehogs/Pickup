@@ -20,19 +20,19 @@ class CreateGame extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-			 <Button 
-			 	transparent
-			 	onPress={ () => this.props.exitCreateGame() } 
-			 	textStyle={styles.xtext} 
-			 	style={styles.x}>X</Button>
+			 
 
 			 <View style={styles.innerContainer}>
 			 	<Title style={styles.title}>Game Type</Title>
-			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
 			  <GamePicker ref="gamePickerData" onGameTypeChange= {this.props.onGameTypeChange}/>
 			  <Title style={styles.title}>Start Time</Title>
-			  <Hr lineColor='rgba(255, 255, 255, .5)'/>
+			  <Hr lineColor='rgba(0, 0, 0, .5)'/>
 			  <TimePicker ref="timePickerData" onTimeDataChange= {this.props.onTimeDataChange}/>
+			  <Button 
+			  	transparent
+			  	onPress={ () => this.props.exitCreateGame() } 
+			  	textStyle={styles.xtext} 
+			  	style={styles.x}>X</Button>
 			  <Button 
 			  	block
 			  	success

@@ -13,6 +13,7 @@ import Foot from '../footer/Footer';
 import Head from '../header/header';
 import CreateGame from '../CreateGame/CreateGame';
 import JoinGame from '../JoinGame/JoinGame';
+import MyGameDetails from '../MyGameDetails/MyGameDetails';
 
 const { width, height } = Dimensions.get('window');
 const aspectRatio = width / height;
@@ -38,7 +39,8 @@ class HomeMap extends Component {
       selectedGameType: '5 on 5',
       selectedGameTime: new Date(),
       segmentedIosIndex: 0,
-      timeNow: new Date()
+      timeNow: new Date(),
+      myGame: null // need to refactor this to get from DB for specific user
     };
 
   }
@@ -121,17 +123,20 @@ class HomeMap extends Component {
   }
 
   handleSubmitGame() {
-    helper.postNewGame({
+    let game = {
       type: this.state.selectedGameType,
       playerIds: ['12345'],
       time: this.state.selectedGameTime,
       court: this.state.selectedCourt.name
-    })
+    };
 
+    helper.postNewGame(game)
     .then(res => {
       this.updateGameData();
       this.setState({segmentedIosIndex: 0, creatingGame: false, mode: 'Current Games'})
     })
+
+    this.setState({myGame: game}); // delete this later once we retrieve game from DB
   }
 
   renderCreateGame() {
@@ -149,7 +154,10 @@ class HomeMap extends Component {
     try {
       let token = await AsyncStorage.getItem(STORAGE_KEY);
       helper.joinGame(game, token)
-        .then(response => AlertIOS.alert('You have been added to the game. BALL OUT!'))
+        .then(response => {
+          AlertIOS.alert('You have been added to the game. BALL OUT!');
+          this.setState({myGame: game}); // remove later when synched with DB
+        })
         .catch(error => AlertIOS.alert('You are already a part of this game. BALL OUT!'))
     } catch (error) {
       console.log('AsyncStorage error getting token: ' + error.message);
@@ -169,6 +177,23 @@ class HomeMap extends Component {
     )
   }
 
+  renderMyGameDetails() {
+    return (
+      <MyGameDetails game={this.state.myGame} />
+    )
+  }
+
+  renderFoot() {
+    return (
+      <Foot 
+        game={this.state.selectedGame} 
+        court={this.state.selectedCourt} 
+        mode={this.state.mode}
+        createGame={() => this.setState({creatingGame: true})}
+        joinGame={() => this.setState({joiningGame: true})}/>
+    )
+  }
+
   render() {
     const iosIndex = this.state.segmentedIosIndex === 0 ? 1 : 0;
     return (
@@ -185,19 +210,15 @@ class HomeMap extends Component {
               switchMode={ mode => this.setState({mode: mode, segmentedIosIndex: iosIndex})} 
               index={this.state.segmentedIosIndex}/>
 
+            {this.state.myGame && this.renderMyGameDetails()}  
+
             {this.state.mode === 'Current Games' ? this.renderGames() : this.renderCourts()}
           </MapView>
 
           {this.state.creatingGame && this.renderCreateGame()}
           {this.state.joiningGame && this.renderJoinGame()}
 
-          <Foot 
-            game={this.state.selectedGame} 
-            court={this.state.selectedCourt} 
-            mode={this.state.mode}
-            createGame={() => this.setState({creatingGame: true})}
-            joinGame={() => this.setState({joiningGame: true})}/>
-
+          {!this.state.creatingGame && !this.state.joiningGame && this.renderFoot()}
 
         </View>
       </Container>
