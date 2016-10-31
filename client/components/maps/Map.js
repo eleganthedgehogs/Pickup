@@ -64,12 +64,30 @@ class HomeMap extends Component {
 
   componentWillMount() {
     this.updateGameData();
+    setTimeout(() => {
 
-    setInterval(() => {
-      this.setState({timeNow: new Date()});
-      this.updateGameData();
-    }, 15000);
+      // setInterval(() => {
+      //   console.log('Interval running at', (new Date()));
+      //   this.setState({timeNow: new Date()})}, 60000);
+
+      setInterval(() => {
+        console.log('Interval running at', (new Date()));
+        this.setState({timeNow: new Date()});
+        this.updateGameData();
+      }, 15000);
+
+        console.log('First timeout ran!');
+    }, (new Date(Math.ceil(new Date().getTime() / 15000) * 15000)) - (new Date));
   }
+
+  // componentWillMount() {
+  //   this.updateGameData();
+
+  //   setInterval(() => {
+  //     this.setState({timeNow: new Date()});
+  //     this.updateGameData();
+  //   }, 15000);
+  // }
 
   renderGames() {
     let self = this;
