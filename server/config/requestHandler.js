@@ -173,6 +173,29 @@ var joinGame = function(req, res) {
   }
 };
 
+var myGames = function(req, res) {
+  var game = req.body.game;
+  var token = req.body.token;
+
+  if (token) {
+    var userId = jwt.decode(token).id;
+
+    db.findAllGames({})
+    .then(function(games) {
+      var userGames = games.filter(function(game) {
+        return game.playerIds.indexOf(userId) !== -1;
+      });
+
+      res.send({ games: userGames });
+    })
+    .catch(function(e) {
+      console.log('Error finding all games that user is a part of');
+    });
+  } else {
+    res.status(404).send('No token sent');
+  }
+};
+
 module.exports = {
   postLogin: postLogin,
   postSignup: postSignup,
@@ -181,6 +204,7 @@ module.exports = {
   getCourts: getCourts,
   postGame: postGame,
   getMain: getMain,
-  joinGame: joinGame
+  joinGame: joinGame,
+  myGames: myGames
 };
 
