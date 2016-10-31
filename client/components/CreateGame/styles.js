@@ -1,28 +1,33 @@
 import React, { StyleSheet, Dimensions } from 'react-native';
-const deviceHeight = Dimensions.get('window').height;
+
 const createGameBtnColor = '#5DBCD2';
-const backgroundColor = 'rgba(0, 0, 0, 0.95)'
+const backgroundColor = 'rgba(255, 255, 255, 1)'
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: backgroundColor
+    top: 80,
+    bottom: 10,
+    left: 10,
+    right: 10,
+    backgroundColor: backgroundColor,
+    borderRadius: 10,
+    shadowColor: 'grey',
+    shadowOpacity: .8,
+    shadowRadius: 2,
+    shadowOffset: {height: 1, width: 0}
   },
   innerContainer: {
-    flex: 1,
-    marginTop: deviceHeight / 17
+    flex: 1
   },
   title: {
-    color: 'white',
-    marginBottom: 10
+    color: 'black',
+    marginBottom: 0,
+    marginTop: 40
   },
   button: {
     padding: 10,
-    marginTop: 40,
+    marginTop: 0,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: createGameBtnColor
@@ -30,13 +35,19 @@ const styles = StyleSheet.create({
   },
   x: {
     position: 'absolute',
-    top: 20,
+    top: 10,
     right: 10,
   },
   xtext: {
-    color: 'white',
-    fontSize: 25,
-    lineHeight: 25
+    color: 'black',
+    fontSize: 24,
+    lineHeight: 24
+  },
+  image: {
+    width: 380, 
+    height: 200,
+    marginLeft: 7,
+    marginTop: 10
   }
 
 });
