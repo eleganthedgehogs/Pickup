@@ -36,10 +36,7 @@ class CreateGame extends Component {
 			  <Button 
 			  	block
 			  	success
-			  	onPress={ () => {
-			  		this.props.postGame();
-			  		this.props.submitGame();
-			  	}}
+			  	onPress={ () => this.props.submitGame() }
 			  	style={styles.button}>Create Game!</Button>
 			 </View>
 			</View>
