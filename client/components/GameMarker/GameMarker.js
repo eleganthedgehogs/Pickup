@@ -8,7 +8,7 @@ class GameMarker extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.bubble}>
-          <Text style={styles.amount}>{`${countdown}, ${amount} players`}</Text>
+          <Text style={styles.amount}>{`${countdown}, ${amount} ${amount === 1 ? 'player':'players'}`}</Text>
         </View>
         <View style={styles.arrowBorder} />
         <View style={styles.arrow} />
