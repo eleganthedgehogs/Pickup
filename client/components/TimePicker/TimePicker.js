@@ -5,8 +5,8 @@ import { View, DatePickerIOS } from 'react-native';
 class TimePicker extends Component {
 
 	static defaultProps = {
-    date: new Date(),
-    timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 6
+    date: new Date(Math.ceil(new Date().getTime() / 60000) * 60000),
+    timeZoneOffsetInHours: (-1) * (new Date(Math.ceil(new Date().getTime() / 60000) * 60000)).getTimezoneOffset() / 6
   }
 
 	constructor(props) {
