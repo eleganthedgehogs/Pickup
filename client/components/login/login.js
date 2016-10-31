@@ -5,7 +5,7 @@ import styles from './styles';
 import helper from '../../utils/helper';
 
 let STORAGE_KEY = 'id_token';
-const background = require('../images/basketball_rim.jpg');
+const background = require('../images/shadow.png');
 
 class LogIn extends Component {
   constructor(props) {
