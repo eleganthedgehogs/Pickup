@@ -30,14 +30,21 @@ let joinGame = function(game, token) {
   return axios.post('http://localhost:8000/api/join', body);
 };
 
+let getMyGames = function(token) {
+  let body = {
+    token: token
+  };
 
+  return axios.post('http://localhost:8000/api/mygames', body);
+}
 
 var data = {
   getMainData: getMainData,
   postLogin: postLogin,
   postSignUp: postSignUp,
   postNewGame: postNewGame,
-  joinGame: joinGame
+  joinGame: joinGame,
+  getMyGames: getMyGames
 };
 
 export default data;
