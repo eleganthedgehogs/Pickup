@@ -9,7 +9,7 @@ const MyGameDetails = (props) => {
 	return (
 		<View style={styles.viewContainer}>
 		 <View>
-		   <Title style={styles.title}>You have a game starting in {moment(props.game.time).fromNow()}</Title>
+		   <Title style={styles.title}>You have joined a game that starts in {moment(props.game.time).fromNow()}</Title>
 		 </View>
 		</View>
 	)
