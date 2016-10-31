@@ -24,6 +24,7 @@ app.get('/api/courts', requestHandler.getCourts);
 app.post('/api/games', requestHandler.postGame);
 app.get('/api/main', requestHandler.getMain);
 app.post('/api/join', requestHandler.joinGame);
+app.get('/api/mygames', requestHandler.myGames);
 
 
 /***********************SERVER START*************************/
