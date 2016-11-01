@@ -17,6 +17,7 @@ class GamePicker extends Component {
 	render() {
 		return (
 	    <PickerIOS
+	    	value=""
 	      selectedValue={this.state.gameType}
 		  itemStyle={ styles.itemStyle }
 	      onValueChange={ gameType => {

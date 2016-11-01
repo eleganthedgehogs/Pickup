@@ -62,7 +62,7 @@ class HomeMap extends Component {
       let token = await AsyncStorage.getItem(STORAGE_KEY);
       helper.getMyGames(token)
             .then(res => console.log('my games', res.data))
-            .catch(err => console.log('getMyGames:', err))
+            .catch(err => console.log('getMyGames:', err))            
     } catch (error) {
       console.log('AsyncStorage error getting token: ' + error.message);
     }
