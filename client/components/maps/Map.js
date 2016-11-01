@@ -93,8 +93,8 @@ class HomeMap extends Component {
         console.log('Interval running at', (new Date()));
         this.setState({timeNow: new Date()});
         this.updateGameData();
-      }, 15000);
-    }, (new Date(Math.ceil(new Date().getTime() / 15000) * 15000)) - (new Date));
+      }, 3000);
+    }, (new Date(Math.ceil(new Date().getTime() / 3000) * 3000)) - (new Date));
   }
 
   renderGames() {
