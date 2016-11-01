@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, InputGroup, Input, Button, View, Text, Div } from 'native-base';
+import { Container, Content, InputGroup, Input, Button, View, Text, Div, Icon } from 'native-base';
 import { Image, AsyncStorage} from 'react-native';
 import styles from './styles';
 import helper from '../../utils/helper';
@@ -60,7 +60,7 @@ class SignUp extends Component {
             <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
                 <InputGroup style={styles.input}>
-                  
+                  <Icon name='ios-mail' style={{color:'#00C497'}} />
                   <Input 
                     placeholder="EMAIL" 
                     onChangeText={ email => this.setState({ email }) }
@@ -69,7 +69,7 @@ class SignUp extends Component {
                   
                 </InputGroup>
                 <InputGroup style={styles.input}>
-                  
+                  <Icon name='ios-lock' style={{color:'#00C497'}} />
                   <Input
                     placeholder="PASSWORD" 
                     onChangeText={ password => this.setState({ password }) }
